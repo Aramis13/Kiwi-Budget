@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import App from '@/App'
+import 'bootstrap-css-only/css/bootstrap.min.css'
+import 'mdbvue/build/css/mdb.css'
 
 Vue.use(Router)
 
@@ -8,8 +10,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'app',
+      component: App
     }
   ]
 })
