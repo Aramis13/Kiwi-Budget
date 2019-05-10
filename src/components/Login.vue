@@ -1,5 +1,6 @@
 <template>
 <mdbContainer>
+  <form>
   <section class="form-simple">
     <mdb-row class="justify-content-center mx-auto mt-5">
       <mdb-col md="5">
@@ -10,21 +11,24 @@
             </mdb-row>
           </div>
           <mdb-card-body class="mx-4 mt-4">
-            <mdb-input v-model="email" label="Your email" type="text"/>
-            <mdb-input v-model="password" label="Your password" type="password" containerClass="mb-0"/>
+            <mdb-input v-model="email" icon="envelope" label="Email" type="text"/>
+            <mdb-input v-model="password" icon="lock" label="Password" type="password" containerClass="mb-0"/>
+            <p class="error-msg">{{errorMsg}}</p>
             <div class="text-center mb-4 mt-5">
-              <mdb-btn type="button" gradient="blue" rounded class="btn-block z-depth-1a" :disabled="!emailValidated || !passwordValidated">Sign in</mdb-btn>
+              <mdb-btn v-on:click="Submit()" type="button" gradient="blue" rounded class="btn-block z-depth-1a" :disabled="!emailValidated || !passwordValidated">Sign in</mdb-btn>
             </div>
           </mdb-card-body>
         </mdb-card>
       </mdb-col>
     </mdb-row>
   </section>
+  </form>
 </mdbContainer>
 </template>
 
 <script>
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbContainer } from 'mdbvue'
+import axios from 'axios'
 export default {
   name: 'FormsPage',
   components: {
@@ -41,21 +45,60 @@ export default {
       email: null,
       password: null,
       emailValidated: false,
-      passwordValidated: false
+      passwordValidated: false,
+      // eslint-disable-next-line
+      emailReg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+      // eslint-disable-next-line
+      passwordReg: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
+      errorMsg: ''
     }
   },
   watch: {
     email (val) {
-      console.log(val)
+      if (this.emailReg.test(val)) {
+        this.emailValidated = true
+        this.errorMsg = ''
+        // eslint-disable-next-line
+      }
+      else {
+        this.errorMsg = 'Invalid Email'
+        this.emailValidated = false
+      }
     },
     password (val) {
-      console.log(val)
+      if (this.passwordReg.test(val)) {
+        this.passwordValidated = true
+        this.errorMsg = ''
+        // eslint-disable-next-line
+      }
+      else {
+        this.errorMsg = 'Invalid Password'
+        this.passwordValidated = false
+      }
+    }
+  },
+  methods: {
+    Submit () {
+      axios.post('/api/user/login', {
+        email: this.email,
+        password: this.password
+      }).then(res => {
+        console.log(res)
+      }).catch(e => {
+        console.log(e)
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+  .error-msg {
+    display: flex;
+    justify-content: center;
+    color: orangered;
+  }
+
   .form-simple .font-small {
     font-size: 0.8rem; }
 

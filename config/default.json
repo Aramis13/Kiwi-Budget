@@ -1,0 +1,5 @@
+{
+    "port": 8080,
+    "MONGODB_URI": "mongodb://localhost/main-DB",
+    "salt": "waba-laba-dab-dab"
+}

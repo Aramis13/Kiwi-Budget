@@ -14,3 +14,9 @@ export default {
   }
 }
 </script>
+
+<style>
+body {
+  background-image: url("./assets/302011.jpg");
+}
+</style>
