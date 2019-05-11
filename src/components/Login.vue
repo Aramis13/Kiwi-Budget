@@ -10,13 +10,14 @@
               <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Log in</h3>
             </mdb-row>
           </div>
-          <mdb-card-body class="mx-4 mt-4">
+          <mdb-card-body class="mx-3 grey-text">
             <mdb-input v-model="email" icon="envelope" label="Email" type="text"/>
             <mdb-input v-model="password" icon="lock" label="Password" type="password" containerClass="mb-0"/>
             <p class="error-msg">{{errorMsg}}</p>
             <div class="text-center mb-4 mt-5">
               <mdb-btn v-on:click="Submit()" type="button" gradient="blue" rounded class="btn-block z-depth-1a" :disabled="!emailValidated || !passwordValidated">Sign in</mdb-btn>
             </div>
+            <Register />
           </mdb-card-body>
         </mdb-card>
       </mdb-col>
@@ -28,6 +29,7 @@
 
 <script>
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbContainer } from 'mdbvue'
+import Register from './Register'
 import axios from 'axios'
 export default {
   name: 'FormsPage',
@@ -38,7 +40,8 @@ export default {
     mdbCardBody,
     mdbInput,
     mdbBtn,
-    mdbContainer
+    mdbContainer,
+    Register
   },
   data () {
     return {
@@ -72,7 +75,7 @@ export default {
         // eslint-disable-next-line
       }
       else {
-        this.errorMsg = 'Invalid Password'
+        this.errorMsg = 'Password requirements: At least 8 characters, 1 number, 1 upper and 1 lowercase'
         this.passwordValidated = false
       }
     }

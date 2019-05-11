@@ -56,8 +56,17 @@ exports.CreateUser = function (req, res) {
                 response.message = 'User Created successfully';
                 let token = AuthController.signUser(user.password);
                 response.token = token;
-                res.send(response);
+                res.status(200).send(response);
             });  
         }   
+    });
+}
+
+exports.DeleteUser = function (req, res) {
+    let data = req.body;
+    User.findOneAndRemove({email: data.email}, function(err, user){
+        if (err) return err;
+        if (user) res.status(200).send({success: true, msg: user.firstname + ' ' + user.lastname + ' was removed'})
+        else res.send({success: false, msg: user.firstname + ' ' + user.lastname + ' was not found'})
     });
 }
