@@ -1,5 +1,5 @@
 <template>
-    <mdb-container class="mt-5">
+    <mdb-container style="margin-top: 1.5rem!important;">
         <div style="display:flex; justify-content: center;">
             <mdb-btn @click.native="modal = true" gradient="peach"><mdb-icon icon="plus" class="mr-2"/>Register New User</mdb-btn>
         </div>
@@ -8,12 +8,12 @@
         <mdb-modal-title tag="h4" bold class="w-100">Sign up</mdb-modal-title>
       </mdb-modal-header>
       <mdb-modal-body class="mx-3 grey-text">
-        <mdb-input label="Username" icon="user" class="mb-5"/>
-        <mdb-input label="Email" icon="envelope" type="email" class="mb-5"/>
-        <mdb-input label="Password" icon="lock" type="password"/>
+        <mdb-input v-model="userName" label="Username" icon="user" class="mb-5"/>
+        <mdb-input v-model="email" label="Email" icon="envelope" type="email" class="mb-5"/>
+        <mdb-input v-model="password" label="Password" icon="lock" type="password"/>
       </mdb-modal-body>
       <mdb-modal-footer center>
-        <mdb-btn @click="modal = false" gradient="peach">Sign Up</mdb-btn>
+        <mdb-btn @click="modal = false, Register()" gradient="peach">Sign Up</mdb-btn>
       </mdb-modal-footer>
     </mdb-modal>
     </mdb-container>
@@ -21,14 +21,17 @@
 
 <script>
 /* eslint-disable */
-    import { mdbIcon ,mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbTooltip, mdbPopover, mdbInput, mdbTextarea, mdbContainer, mdbRow, mdbCol } from 'mdbvue';
+import { mdbIcon ,mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbTooltip, mdbPopover, mdbInput, mdbTextarea, mdbContainer, mdbRow, mdbCol } from 'mdbvue';
+import axios from 'axios';
 
     export default {
         name: 'ModalPage',
         data() {
             return {
-                modal: false,
-                mailAddress: '@mdo'
+                userName: null,
+                email: null,
+                password: null,
+                modal: false
             };
         },
         components: {
@@ -46,6 +49,15 @@
             mdbRow,
             mdbCol,
             mdbIcon
+        },
+        methods: {
+            Register() {
+                axios.post('/api/user/createUser', {
+                    userName: this.userName,
+                    email: this.email,
+                    password: this.password
+                })
+            }
         }
     };
 </script>

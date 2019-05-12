@@ -1,14 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import App from '@/App'
+// import App from '@/App'
+import Dashboard from '@/components/Dashboard'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'app',
-      component: App
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard
     },
     {
       path: '*',
@@ -17,11 +25,11 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.fullPath === '/') { // eslint-disable-next-line
-  }
-  else {
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.fullPath === '/') { // eslint-disable-next-line
+//   }
+//   else {
+//   }
+// })
 
 export default router

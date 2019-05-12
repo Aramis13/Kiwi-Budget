@@ -42,8 +42,7 @@ exports.CreateUser = function (req, res) {
         } 
         else{
             let user = new User({
-                firstname: data.firstname,
-                lastname: data.lastname,
+                userName: data.userName,
                 email: data.email,
                 password: data.password
             });

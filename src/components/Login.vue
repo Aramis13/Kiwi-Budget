@@ -11,10 +11,10 @@
             </mdb-row>
           </div>
           <mdb-card-body class="mx-3 grey-text">
-            <mdb-input v-model="email" icon="envelope" label="Email" type="text"/>
+            <mdb-input class="mb-5" v-model="email" icon="envelope" label="Email" type="text"/>
             <mdb-input v-model="password" icon="lock" label="Password" type="password" containerClass="mb-0"/>
             <p class="error-msg">{{errorMsg}}</p>
-            <div class="text-center mb-4 mt-5">
+            <div class="text-center">
               <mdb-btn v-on:click="Submit()" type="button" gradient="blue" rounded class="btn-block z-depth-1a" :disabled="!emailValidated || !passwordValidated">Sign in</mdb-btn>
             </div>
             <Register />
@@ -86,7 +86,10 @@ export default {
         email: this.email,
         password: this.password
       }).then(res => {
-        console.log(res)
+        let data = res.data
+        if (data.auth) {
+          this.$router.push({name: 'dashboard'})
+        }
       }).catch(e => {
         console.log(e)
       })
