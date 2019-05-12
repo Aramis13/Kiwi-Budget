@@ -9,7 +9,7 @@ exports.Login = function(req , res) {
             if (user){
                 if (AuthController.verifyPassword(user.password, data.password)){
                     let token = AuthController.signUser(user._id);
-                    res.status(200).send({auth: true, token: token});
+                    res.status(200).send({auth: true, token: token, userName: user.userName});
                 }
                 else{
                     res.send({auth: false, message: 'Invalid Password!'});

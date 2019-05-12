@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/build/css/mdb.css'
+import VueCookie from 'vue-cookie'
 
+Vue.use(VueCookie)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

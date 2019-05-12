@@ -16,7 +16,8 @@ const router = new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      props: true
     },
     {
       path: '*',

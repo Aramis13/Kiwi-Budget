@@ -1,6 +1,5 @@
 <template>
 <mdbContainer>
-  <form>
   <section class="form-simple">
     <mdb-row class="justify-content-center mx-auto mt-5">
       <mdb-col md="5">
@@ -23,7 +22,6 @@
       </mdb-col>
     </mdb-row>
   </section>
-  </form>
 </mdbContainer>
 </template>
 
@@ -88,10 +86,11 @@ export default {
       }).then(res => {
         let data = res.data
         if (data.auth) {
-          this.$router.push({name: 'dashboard'})
+          this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
+          this.$router.push({ name: 'dashboard', params: { userName: data.userName } })
         }
       }).catch(e => {
-        console.log(e)
+        this.errorMsg = e
       })
     }
   }

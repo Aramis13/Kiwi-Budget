@@ -1,7 +1,7 @@
 <template>
     <mdb-container style="margin-top: 1.5rem!important;">
         <div style="display:flex; justify-content: center;">
-            <mdb-btn @click.native="modal = true" gradient="peach"><mdb-icon icon="plus" class="mr-2"/>Register New User</mdb-btn>
+            <mdb-btn @click.native="modal = true" gradient="peach"><mdb-icon icon="plus" class="mr-2"/>Sign Up</mdb-btn>
         </div>
       <mdb-modal :show="modal" @close="modal = false">
       <mdb-modal-header class="text-center">
@@ -20,44 +20,43 @@
 </template>
 
 <script>
-/* eslint-disable */
-import { mdbIcon ,mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbTooltip, mdbPopover, mdbInput, mdbTextarea, mdbContainer, mdbRow, mdbCol } from 'mdbvue';
-import axios from 'axios';
+import { mdbIcon, mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbTooltip, mdbPopover, mdbInput, mdbTextarea, mdbContainer, mdbRow, mdbCol } from 'mdbvue'
+import axios from 'axios'
 
-    export default {
-        name: 'ModalPage',
-        data() {
-            return {
-                userName: null,
-                email: null,
-                password: null,
-                modal: false
-            };
-        },
-        components: {
-            mdbBtn,
-            mdbModal,
-            mdbModalHeader,
-            mdbModalTitle,
-            mdbModalBody,
-            mdbModalFooter,
-            mdbTooltip,
-            mdbPopover,
-            mdbInput,
-            mdbTextarea,
-            mdbContainer,
-            mdbRow,
-            mdbCol,
-            mdbIcon
-        },
-        methods: {
-            Register() {
-                axios.post('/api/user/createUser', {
-                    userName: this.userName,
-                    email: this.email,
-                    password: this.password
-                })
-            }
-        }
-    };
+export default {
+  name: 'ModalPage',
+  data () {
+    return {
+      userName: null,
+      email: null,
+      password: null,
+      modal: false
+    }
+  },
+  components: {
+    mdbBtn,
+    mdbModal,
+    mdbModalHeader,
+    mdbModalTitle,
+    mdbModalBody,
+    mdbModalFooter,
+    mdbTooltip,
+    mdbPopover,
+    mdbInput,
+    mdbTextarea,
+    mdbContainer,
+    mdbRow,
+    mdbCol,
+    mdbIcon
+  },
+  methods: {
+    Register () {
+      axios.post('/api/user/createUser', {
+        userName: this.userName,
+        email: this.email,
+        password: this.password
+      })
+    }
+  }
+}
 </script>

@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/api/user', user);
 
-// app.get('*', function(req, res){
-//     res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
-// });
+app.get('*', function(req, res){
+    res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
+});
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

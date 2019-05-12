@@ -5,6 +5,7 @@
 </template>
 
 <script>
+/* eslint-disable */
   import { mdbLineChart, mdbContainer } from 'mdbvue';
   export default {
     name: 'ChartPage',
