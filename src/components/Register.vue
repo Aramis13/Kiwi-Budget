@@ -13,7 +13,7 @@
         <mdb-input v-model="password" label="Password" icon="lock" type="password"/>
       </mdb-modal-body>
       <mdb-modal-footer center>
-        <mdb-btn @click="modal = false, Register()" gradient="peach">Sign Up</mdb-btn>
+        <mdb-btn @click="Register()" gradient="peach">Sign Up</mdb-btn>
       </mdb-modal-footer>
     </mdb-modal>
     </mdb-container>
@@ -30,7 +30,11 @@ export default {
       userName: null,
       email: null,
       password: null,
-      modal: false
+      modal: false,
+      // eslint-disable-next-line
+      emailReg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+      // eslint-disable-next-line
+      passwordReg: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
     }
   },
   components: {
@@ -51,6 +55,26 @@ export default {
   },
   methods: {
     Register () {
+      if (!this.emailReg.test(this.email)) {
+        this.$toasted.show('Please enter a valid email adress', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+        return
+      }
+      if (!this.passwordReg.test(this.password)) {
+        this.$toasted.show('Password requirements: At least 8 characters, 1 number, 1 upper and 1 lowercase', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 10000,
+          type: 'error',
+          icon: 'error'
+        })
+        return
+      }
       axios.post('/api/user/createUser', {
         userName: this.userName,
         email: this.email,
@@ -62,7 +86,13 @@ export default {
           this.$router.push({ name: 'dashboard', params: { userName: this.userName } })
         }
       }).catch(e => {
-        console.log(e)
+        this.$toasted.show(e, {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
       })
     }
   }

@@ -17,9 +17,9 @@
       <mdb-dropdown tag="li" class="nav-item">
           <mdb-dropdown-toggle style="color: lightgrey;" icon="user" tag="a" navLink color="stylish" slot="toggle" waves-fixed>{{userName}}</mdb-dropdown-toggle>
           <mdb-dropdown-menu class="left">
-            <mdb-dropdown-item>Action</mdb-dropdown-item>
-            <mdb-dropdown-item>Another action</mdb-dropdown-item>
-            <mdb-dropdown-item>Something else here</mdb-dropdown-item>
+            <div @click="Logout()">
+              <mdb-dropdown-item>Logout</mdb-dropdown-item>
+            </div>
           </mdb-dropdown-menu>
         </mdb-dropdown>
     </mdb-navbar-toggler>
@@ -51,6 +51,12 @@ export default {
   },
   props: {
     userName: ''
+  },
+  methods: {
+    Logout () {
+      this.$cookie.delete('portfolioManagerToken')
+      this.$router.push({ name: 'login' })
+    }
   }
 }
 </script>
