@@ -16,15 +16,14 @@
     data() {
       return {
         lineChartData: {
-          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          labels: ["January", "February", "March", "April", "May", "June", "July", "Augost", "Sephtember", "October", "November", "Desember"],
           datasets: [
             {
               label: "My First dataset",
-              color: "grey",
-              backgroundColor: "rgba(255, 99, 132, 0.1)",
+              backgroundColor: "rgba(0, 0, 0, 0)",
               borderColor: "red",
               borderWidth: 0.7,
-              data: [65, 59, 80, 81, 56, 55, 40]
+              data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40]
             }
           ]
         },
@@ -35,13 +34,13 @@
             xAxes: [{
               gridLines: {
                 display: true,
-                color: "rgba(0, 0, 0, 0.1)"
+                color: "grey"
               }
             }],
             yAxes: [{
               gridLines: {
                 display: true,
-                color: "rgba(0, 0, 0, 0.1)"
+                color: "grey"
               }
             }]
           }

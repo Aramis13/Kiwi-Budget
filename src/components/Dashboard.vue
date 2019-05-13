@@ -15,7 +15,7 @@
         <mdb-input type="text" placeholder="Search" aria-label="Search"/>
       </mdb-form-inline>
       <mdb-dropdown tag="li" class="nav-item">
-          <mdb-dropdown-toggle icon="user" tag="a" navLink color="stylish" slot="toggle" waves-fixed>{{userName}}</mdb-dropdown-toggle>
+          <mdb-dropdown-toggle style="color: lightgrey;" icon="user" tag="a" navLink color="stylish" slot="toggle" waves-fixed>{{userName}}</mdb-dropdown-toggle>
           <mdb-dropdown-menu class="left">
             <mdb-dropdown-item>Action</mdb-dropdown-item>
             <mdb-dropdown-item>Another action</mdb-dropdown-item>

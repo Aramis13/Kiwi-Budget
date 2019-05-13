@@ -30,7 +30,7 @@ import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbInput, mdbBtn, mdbContainer } 
 import Register from './Register'
 import axios from 'axios'
 export default {
-  name: 'FormsPage',
+  name: 'Login',
   components: {
     mdbRow,
     mdbCol,
@@ -62,7 +62,7 @@ export default {
         // eslint-disable-next-line
       }
       else {
-        this.errorMsg = 'Invalid Email'
+        this.errorMsg = 'Enter A Valid Email Adress'
         this.emailValidated = false
       }
     },
@@ -88,9 +88,25 @@ export default {
         if (data.auth) {
           this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
           this.$router.push({ name: 'dashboard', params: { userName: data.userName } })
+          // eslint-disable-next-line
+        }
+        else {
+          this.$toasted.show(data.message, {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'error',
+            icon: 'error'
+          })
         }
       }).catch(e => {
-        this.errorMsg = e
+        this.$toasted.show(e, {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
       })
     }
   }
@@ -101,7 +117,7 @@ export default {
   .error-msg {
     display: flex;
     justify-content: center;
-    color: orangered;
+    color: grey;
   }
 
   .form-simple .font-small {

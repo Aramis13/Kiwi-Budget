@@ -5,8 +5,10 @@ import App from './App'
 import router from './router'
 import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/build/css/mdb.css'
+import 'material-icons/iconfont/material-icons.css'
 import VueCookie from 'vue-cookie'
-
+import Toasted from 'vue-toasted'
+Vue.use(Toasted)
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 

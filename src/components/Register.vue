@@ -55,6 +55,14 @@ export default {
         userName: this.userName,
         email: this.email,
         password: this.password
+      }).then(res => {
+        let data = res.data
+        if (data.success) {
+          this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
+          this.$router.push({ name: 'dashboard', params: { userName: this.userName } })
+        }
+      }).catch(e => {
+        console.log(e)
       })
     }
   }
