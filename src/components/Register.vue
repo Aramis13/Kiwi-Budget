@@ -83,7 +83,8 @@ export default {
         let data = res.data
         if (data.success) {
           this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
-          this.$router.push({ name: 'dashboard', params: { userName: this.userName } })
+          localStorage.setItem('portfolioManagerUserName', this.userName)
+          this.$router.push({ name: 'dashboard' })
         }
       }).catch(e => {
         this.$toasted.show(e, {

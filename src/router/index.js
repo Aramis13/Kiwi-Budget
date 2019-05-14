@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import App from '@/App'
+import VueCookie from 'vue-cookie'
 import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 
@@ -17,7 +17,10 @@ const router = new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
-      props: true
+      props: true,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '*',
@@ -26,11 +29,12 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.fullPath === '/') { // eslint-disable-next-line
-//   }
-//   else {
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  let cookie = VueCookie.get('portfolioManagerToken')
+  if (to.matched.some(record => record.meta.auth)) {
+    if (cookie != null) next()
+    else next({ name: 'login' })
+  } else next()
+})
 
 export default router

@@ -1,6 +1,6 @@
 <template>
 <mdbContainer>
-  <section class="form-simple">
+  <section class="form-simple" @keyup.enter.native="Submit()">
     <mdb-row class="justify-content-center mx-auto mt-5">
       <mdb-col md="5">
         <mdb-card>
@@ -87,7 +87,8 @@ export default {
         let data = res.data
         if (data.auth) {
           this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
-          this.$router.push({ name: 'dashboard', params: { userName: data.userName } })
+          localStorage.setItem('portfolioManagerUserName', data.userName)
+          this.$router.push({ name: 'dashboard' })
           // eslint-disable-next-line
         }
         else {

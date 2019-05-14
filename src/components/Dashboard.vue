@@ -49,12 +49,15 @@ export default {
     mdbContainer,
     Chart
   },
-  props: {
-    userName: ''
+  data () {
+    return {
+      userName: localStorage.getItem('portfolioManagerUserName')
+    }
   },
   methods: {
     Logout () {
       this.$cookie.delete('portfolioManagerToken')
+      localStorage.removeItem('portfolioManagerUserName')
       this.$router.push({ name: 'login' })
     }
   }
