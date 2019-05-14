@@ -2,14 +2,13 @@
 <div>
   <mdb-navbar expand="large" dark color="stylish" class="navbar-light lighten-5" style="opacity:0.85;">
     <!-- Navbar brand -->
-    <mdb-navbar-brand>
+    <mdb-navbar-brand><mdb-icon icon="kiwi-bird" class="mr-1" />
       Portfolio Manager
     </mdb-navbar-brand>
     <mdb-navbar-toggler>
       <mdb-navbar-nav>
-        <mdb-nav-item href="/" active>Home</mdb-nav-item>
-        <mdb-nav-item href="/dashboard">Link</mdb-nav-item>
-        <mdb-nav-item class="disabled" href="#">Disabled</mdb-nav-item>
+        <mdb-nav-item href="/dashboard" active>Home</mdb-nav-item>
+        <mdb-nav-item href="/">Link</mdb-nav-item>
       </mdb-navbar-nav>
       <mdb-form-inline>
         <mdb-input type="text" placeholder="Search" aria-label="Search"/>
@@ -24,13 +23,12 @@
         </mdb-dropdown>
     </mdb-navbar-toggler>
   </mdb-navbar>
-  <Chart />
 </div>
 </template>
 
 <script>
-import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavbarToggler, mdbNavbarNav, mdbNavItem, mdbDropdown, mdbDropdownMenu, mdbDropdownToggle, mdbInput, mdbDropdownItem, mdbFormInline } from 'mdbvue'
-import Chart from './Chart'
+import { mdbIcon, mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavbarToggler, mdbNavbarNav, mdbNavItem, mdbDropdown, mdbDropdownMenu, mdbDropdownToggle, mdbInput, mdbDropdownItem, mdbFormInline } from 'mdbvue'
+// import Chart from './Chart'
 
 export default {
   name: 'NavbarPage',
@@ -47,7 +45,8 @@ export default {
     mdbFormInline,
     mdbInput,
     mdbContainer,
-    Chart
+    // Chart,
+    mdbIcon
   },
   data () {
     return {
