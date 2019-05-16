@@ -1,6 +1,6 @@
 <template>
 <mdbContainer>
-  <section class="form-simple" @keyup.enter.native="Submit()">
+  <section class="form-simple">
     <mdb-row class="justify-content-center mx-auto mt-5">
       <mdb-col md="5">
         <mdb-card>
@@ -9,7 +9,7 @@
               <h3 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Log in</h3>
             </mdb-row>
           </div>
-          <mdb-card-body class="mx-3 grey-text">
+          <mdb-card-body class="mx-3 grey-text" @keyup.enter.native="Submit()">
             <mdb-input class="mb-5" v-model="email" icon="envelope" label="Email" type="text"/>
             <mdb-input v-model="password" icon="lock" label="Password" type="password" containerClass="mb-0"/>
             <p class="error-msg">{{errorMsg}}</p>

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const user = require('./routes/user.router');
+const record = require('./routes/record.route')
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('config');
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/api/user', user);
+app.use('api/record', record);
 
 app.get('*', function(req, res){
     res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));

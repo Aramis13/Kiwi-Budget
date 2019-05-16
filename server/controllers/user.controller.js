@@ -8,7 +8,7 @@ exports.Login = function(req , res) {
             if (err) next (err);
             if (user){
                 if (AuthController.verifyPassword(user.password, data.password)){
-                    let token = AuthController.signUser(user._id);
+                    let token = AuthController.signUser(user.email);
                     res.status(200).send({auth: true, token: token, userName: user.userName});
                 }
                 else{
