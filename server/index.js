@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/api/user', user);
-app.use('api/record', record);
+app.use('/api/record', record);
 
 app.get('*', function(req, res){
     res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));

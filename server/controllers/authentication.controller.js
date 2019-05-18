@@ -15,7 +15,7 @@ exports.signUser = function (signingID) {
 exports.verifyToken = function (req, res) {
     let cookies = req.cookies;
     if (cookies){
-        let token = cookies.token;
+        let token = cookies.portfolioManagerToken;
         if (token){
             try {
                 let decoded = jwt.verify(token, secret);

@@ -53,7 +53,7 @@ exports.CreateUser = function (req, res) {
                 if (err) return err;
                 response.success = true;
                 response.message = 'User Created successfully';
-                let token = AuthController.signUser(user.password);
+                let token = AuthController.signUser(user.email);
                 response.token = token;
                 res.status(200).send(response);
             });  

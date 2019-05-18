@@ -2,16 +2,16 @@
     <mdb-navbar expand="large" dark color="stylish" class="navbar-light lighten-5" style="opacity:0.85;">
     <!-- Navbar brand -->
     <mdb-navbar-brand><mdb-icon icon="kiwi-bird" class="mr-1" />
-      Portfolio Manager
+      kiwi Budget
     </mdb-navbar-brand>
     <mdb-navbar-toggler>
       <mdb-navbar-nav>
         <mdb-nav-item href="/dashboard" active>Home</mdb-nav-item>
         <mdb-nav-item href="/">Link</mdb-nav-item>
       </mdb-navbar-nav>
-      <mdb-form-inline>
-        <mdb-input type="text" placeholder="Search" aria-label="Search"/>
-      </mdb-form-inline>
+      <div class="form-inline">
+        <add-record />
+      </div>
       <mdb-dropdown tag="li" class="nav-item">
           <mdb-dropdown-toggle style="color: lightgrey;" icon="user" tag="a" navLink color="stylish" slot="toggle" waves-fixed>{{userName}}</mdb-dropdown-toggle>
           <mdb-dropdown-menu class="left">
@@ -26,7 +26,7 @@
 
 <script>
 import { mdbIcon, mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavbarToggler, mdbNavbarNav, mdbNavItem, mdbDropdown, mdbDropdownMenu, mdbDropdownToggle, mdbInput, mdbDropdownItem, mdbFormInline } from 'mdbvue'
-
+import addRecord from './AddRecord'
 export default {
   name: 'NavbarPage',
   components: {
@@ -42,7 +42,8 @@ export default {
     mdbFormInline,
     mdbInput,
     mdbContainer,
-    mdbIcon
+    mdbIcon,
+    addRecord
   },
   data () {
     return {
