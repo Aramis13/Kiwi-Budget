@@ -29,7 +29,7 @@ exports.AddRecord = function (req, res) {
         }
     }
     else {
-        res.staus(500).send(false);
+        res.send(false);
     }
 }
 
@@ -53,6 +53,6 @@ exports.GetRecords = function (req, res) {
         })
     }
     else {
-        res.staus(500).send(false);
+        res.send(false);
     }
 }

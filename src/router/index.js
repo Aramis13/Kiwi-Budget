@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import VueCookie from 'vue-cookie'
-import Dashboard from '@/components/Dashboard'
-import Login from '@/components/Login'
+import Connections from '@/components/Connections'
+import Records from '@/components/Records'
+import Login from '@/components/LoginVuetify'
 
 Vue.use(Router)
 const router = new Router({
@@ -14,10 +15,17 @@ const router = new Router({
       component: Login
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: Dashboard,
-      props: true,
+      path: '/records',
+      name: 'records',
+      component: Records,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/connections',
+      name: 'connections',
+      component: Connections,
       meta: {
         auth: true
       }
@@ -34,7 +42,10 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
     if (cookie != null) next()
     else next({ name: 'login' })
-  } else next()
+  } else {
+    if (cookie != null) next({ name: 'records' })
+    else next()
+  }
 })
 
 export default router

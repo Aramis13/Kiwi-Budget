@@ -1,7 +1,7 @@
 <template>
     <mdb-container>
         <div style="display:flex; justify-content: center;">
-            <mdb-btn @click.native="modal = true, OpenClicked()" gradient="peach"><mdb-icon icon="file-alt" class="mr-2"/>Add Record</mdb-btn>
+            <mdb-btn @click.native="modal = true, OpenClicked()" gradient="peach" size="sm"><mdb-icon icon="file-alt" class="mr-2"/>Add Record</mdb-btn>
         </div>
       <mdb-modal removeBackdrop :show="modal" @close="modal = false, ClosedClicked()">
       <mdb-modal-header class="text-center">
@@ -66,7 +66,6 @@ export default {
   },
   methods: {
     AddRecord () {
-      this.ClosedClicked()
       axios.post('/api/record/addRecord', {
         date: this.date,
         category: this.category,
@@ -91,6 +90,7 @@ export default {
             icon: 'error'
           })
         }
+        this.ClosedClicked()
       }).catch(e => {
         this.$toasted.show('Failed to Add record. Please try again.', {
           theme: 'bubble',
