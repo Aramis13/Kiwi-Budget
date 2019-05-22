@@ -130,6 +130,42 @@ export default {
     this.GetRecords()
   },
   methods: {
+    AddRecord () {
+      axios.post('/api/record/addRecord', {
+        date: this.editedItem.date,
+        category: this.editedItem.category,
+        description: this.editedItem.description,
+        cost: this.editedItem.cost
+      }).then(res => {
+        if (res) {
+          this.ClearFields()
+          this.$toasted.show('Record Added successfully', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'success',
+            icon: 'check_circle'
+          })
+        } else {
+          this.$toasted.show('Failed to Add record. Please try again.', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'error',
+            icon: 'error'
+          })
+        }
+        this.ClosedClicked()
+      }).catch(e => {
+        this.$toasted.show('Failed to Add record. Please try again.', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+      })
+    },
     GetRecords () {
       axios.get('/api/record/getRecords').then(res => {
         res.data.forEach(record => {
@@ -165,6 +201,7 @@ export default {
       if (this.editedIndex > -1) {
         Object.assign(this.data[this.editedIndex], this.editedItem)
       } else {
+        this.AddRecord()
         this.data.push(this.editedItem)
       }
       this.close()

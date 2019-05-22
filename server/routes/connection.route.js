@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const connection_controller = require('../controllers/authentication.controller');
+const connection_controller = require('../controllers/connection.controller');
 
-//router.get('/authenticate', authentication_controller.verifyToken);
+router.get('/getConnections', connection_controller.GetConnections);
+router.post('/addConnection', connection_controller.AddConnection);
+router.post('/removeConnection', connection_controller.RemoveConnection);
 
 module.exports = router;
