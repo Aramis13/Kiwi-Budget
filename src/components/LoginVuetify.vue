@@ -7,7 +7,7 @@
                 <v-toolbar-title class="display-3">Login</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
-              <v-card-text>
+              <v-card-text v-on:keyup.enter="Submit">
                 <v-form>
                   <v-text-field prepend-icon="alternate_email" name="Email" label="Email" type="email" v-model="email"></v-text-field>
                   <v-text-field prepend-icon="lock" name="password" label="Password" id="password" type="password" v-model="password"></v-text-field>
@@ -36,12 +36,36 @@ export default {
   },
   data () {
     return {
-      email: '',
-      password: ''
+      email: null,
+      password: null,
+      // eslint-disable-next-line
+      emailReg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+      // eslint-disable-next-line
+      passwordReg: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
     }
   },
   methods: {
     Submit () {
+      if (!this.emailReg.test(this.email)) {
+        this.$toasted.show('Please enter a valid email adress', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 10000,
+          type: 'warning',
+          icon: 'warning'
+        })
+        return
+      }
+      if (!this.passwordReg.test(this.password)) {
+        this.$toasted.show('Password requirements: At least 8 characters, 1 number, 1 upper and 1 lowercase', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 10000,
+          type: 'warning',
+          icon: 'warning'
+        })
+        return
+      }
       axios.post('/api/user/login', {
         email: this.email,
         password: this.password

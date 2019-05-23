@@ -42,6 +42,7 @@ exports.GetRecords = function (req, res) {
             let records = [];
             arr.forEach(record => {
                 records.push({
+                    id: record._id,
                     Name: record.name,
                     Date: new Date(record.date).toISOString().slice(0, 10),
                     Category: record.category,
@@ -50,6 +51,20 @@ exports.GetRecords = function (req, res) {
                 });
             })
             res.status(200).send(records);
+        })
+    }
+    else {
+        res.send(false);
+    }
+}
+
+exports.DeleteRecord = function (req, res) {
+    let data = AuthController.verifyToken(req, res);
+    if (data.auth){
+        let id = req.body.id;
+        Record.findOneAndDelete({_id: id}, function (err, result) {
+            if (err) res.status(500).send(false);
+            res.status(200).send(true);
         })
     }
     else {

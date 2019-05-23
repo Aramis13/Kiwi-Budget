@@ -9,7 +9,7 @@
           <span class="headline">Register</span>
         </v-card-title>
         <v-divider />
-        <v-card-text>
+        <v-card-text v-on:keyup.enter="Register">
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
@@ -39,7 +39,6 @@ export default {
     userName: null,
     email: null,
     password: null,
-    modal: false,
     // eslint-disable-next-line
     emailReg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     // eslint-disable-next-line

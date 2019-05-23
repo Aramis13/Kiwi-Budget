@@ -20,20 +20,45 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                <v-flex>
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="date"
+            label="Date"
+            prepend-icon="event"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+          </v-menu>
+            </v-flex>
+                <v-flex xs12>
+                  <v-select
+                    v-model="e1"
+                    :items="states"
+                    menu-props="auto"
+                    label="Category"
+                    hide-details
+                    prepend-icon="list"
+                    single-line
+                  ></v-select>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                <v-flex xs12 class="mt-4">
+                  <v-text-field prepend-icon="attach_money" type="number" v-model="editedItem.cost" label="Cost"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                <v-flex xs12>
+                  <v-textarea prepend-icon="edit" maxlength="50" counter v-model="editedItem.description" label="Description"></v-textarea>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -87,6 +112,7 @@ import axios from 'axios'
 export default {
   data: () => ({
     dialog: false,
+    menu2: false,
     headers: [
       {
         text: 'Name',
@@ -188,7 +214,29 @@ export default {
     },
     deleteItem (item) {
       const index = this.data.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.data.splice(index, 1)
+      if (confirm('Are you sure you want to delete this record?')) {
+        axios.post('/api/records/deleteRecord', {id: item.id}).then(res => {
+          if (res) {
+            this.data.splice(index, 1)
+          } else {
+            this.$toasted.show('Failed to delete record. Please try again.', {
+              theme: 'bubble',
+              position: 'top-right',
+              duration: 5000,
+              type: 'error',
+              icon: 'error'
+            })
+          }
+        }).catch(e => {
+          this.$toasted.show('Failed to delete record. Please try again.', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'error',
+            icon: 'error'
+          })
+        })
+      }
     },
     close () {
       this.dialog = false
