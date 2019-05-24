@@ -11,7 +11,7 @@
 
 <script>
 import Navbar from '@/components/NavberVuetify'
-// import Axios from 'axios'
+import Axios from 'axios'
 export default {
   name: 'App',
   components: {
@@ -23,17 +23,13 @@ export default {
       theme: 'light'
     }
   },
-  // created () {
-  //   this.navbarVisible = this.$route.name !== 'login'
-  //   if (!this.navbarVisible) {
-  //     return
-  //   }
-  //   Axios.get('/api/configuration/getTheme').then(res => {
-  //     this.theme = res
-  //   }).catch(e => {
-  //     // ToDo
-  //   })
-  // },
+  created () {
+    Axios.get('/api/configuration/getTheme').then(res => {
+      this.$root.$emit('ThemeChanged', res.data)
+    }).catch(e => {
+      // ToDo
+    })
+  },
   mounted () {
     this.navbarVisible = this.$route.name !== 'login'
     this.$root.$on('logedIn', () => {

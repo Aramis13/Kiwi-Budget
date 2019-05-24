@@ -153,20 +153,13 @@ export default {
     }
   },
   created () {
-    axios.get('/api/configuration/getTheme').then(res => {
-      this.$root.$emit('ThemeChanged', res.data)
-    }).catch(e => {
-      // ToDo
-    })
+    // axios.get('/api/configuration/getTheme').then(res => {
+    //   this.$root.$emit('ThemeChanged', res.data)
+    // }).catch(e => {
+    //   // ToDo
+    // })
     this.GetRecords()
   },
-  // mounted () {
-  //   axios.get('/api/configuration/getTheme').then(res => {
-  //     this.$root.$emit('ThemeChanged', res.data)
-  //   }).catch(e => {
-  //     // ToDo
-  //   })
-  // },
   methods: {
     AddRecord () {
       axios.post('/api/record/addRecord', {

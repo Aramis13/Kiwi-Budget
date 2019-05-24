@@ -16,29 +16,15 @@
           <v-card-title>
             <span class="headline">{{formTitle}}</span>
           </v-card-title>
-
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                <v-flex xs12>
+                  <v-text-field prepend-icon="alternate_email" v-model="editedItem.Email" label="Email"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
-
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
@@ -49,25 +35,15 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="connections"
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <td>{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.calories }}</td>
-        <td class="text-xs-right">{{ props.item.fat }}</td>
-        <td class="text-xs-right">{{ props.item.carbs }}</td>
-        <td class="text-xs-right">{{ props.item.protein }}</td>
-        <td class="justify-center layout px-0">
+        <td>{{ props.item.Username }}</td>
+        <td>{{ props.item.Email }}</td>
+        <td class="justify-left layout px-0 ml-4">
           <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
+            medium
             @click="deleteItem(props.item)"
           >
             delete
@@ -75,49 +51,36 @@
         </td>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
+        <v-btn color="primary" @click="GetConnections">Reset</v-btn>
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script>
+import Axios from 'axios'
 export default {
   data: () => ({
     dialog: false,
     headers: [
-      {
-        text: 'Dessert (100g serving)',
-        align: 'left',
-        sortable: false,
-        value: 'name'
-      },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: 'Username', value: 'Username' },
+      { text: 'Email', value: 'Email' },
+      { text: 'Action', value: 'name', sortable: false }
     ],
-    desserts: [],
+    connections: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      Username: '',
+      Email: ''
     },
     defaultItem: {
-      name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      Username: '',
+      Email: ''
     }
   }),
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Connection' : 'Edit Connection'
+      return 'New Connection'
     }
   },
   watch: {
@@ -126,91 +89,76 @@ export default {
     }
   },
   created () {
-    this.initialize()
+    this.GetConnections()
   },
   methods: {
-    initialize () {
-      this.desserts = [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
-        }
-      ]
+    GetConnections () {
+      Axios.get('/api/connection/getConnections').then(res => {
+        res.data.forEach(connection => {
+          this.connections.push(connection)
+        })
+      }).catch(e => {
+        this.$toasted.show('Failed to get connections. Please refresh page.', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+      })
+    },
+    AddConnection () {
+      Axios.post('/api/connection/addConnection', {
+        email: this.editedItem.Email
+      }).then(res => {
+        this.connections.push(res.data)
+        this.$toasted.show('Connection added successfully', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'success',
+          icon: 'check_circle'
+        })
+      }).catch(e => {
+        this.$toasted.show('Failed to add connection. Please try again.', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+      })
+    },
+    RemoveConnection (connection) {
+      Axios.post('/api/connection/removeConnection', connection).then(res => {
+        this.$toasted.show('Record removed successfully', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'success',
+          icon: 'check_circle'
+        })
+      }).catch(e => {
+        this.$toasted.show('Failed to remove connection. Please try again.', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+      })
     },
     editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.connections.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
     deleteItem (item) {
-      const index = this.desserts.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+      const index = this.connections.indexOf(item)
+      if (confirm('Are you sure you want to delete this connection?')) {
+        this.RemoveConnection(item)
+        this.connections.splice(index, 1)
+      }
     },
     close () {
       this.dialog = false
@@ -220,11 +168,17 @@ export default {
       }, 300)
     },
     save () {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-        this.desserts.push(this.editedItem)
-      }
+      this.AddConnection()
+
+      // Axios.get('/api/user/getUserName', {email: this.editedItem.Email}).then(res => {
+      //   this.editedItem.Username = res.data
+      //   this.connections.push({
+      //     Username: res.data,
+      //     Email: this.editedItem.email
+      //   })
+      // }).catch(e => {
+      //   // Todo
+      // })
       this.close()
     }
   }
