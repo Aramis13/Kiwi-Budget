@@ -33,6 +33,25 @@ exports.AddRecord = function (req, res) {
     }
 }
 
+exports.EditRecord = function (req, res) {
+    let data = AuthController.verifyToken(req, res);
+    if (data.auth){
+        let record = req.body.record;
+        Record.findOneAndUpdate({_id: record.id}, {
+            date: record.Date,
+            category: record.Category,
+            description: record.Description,
+            cost: record.Cost
+        }, function (err, doc, result) {
+            if (err) res.status(500).end();
+            res.status(200).send(true);
+        });
+    }
+    else {
+        res.send(false);
+    }
+}
+
 exports.GetRecords = function (req, res) {
     let data = AuthController.verifyToken(req, res);
     if (data.auth){

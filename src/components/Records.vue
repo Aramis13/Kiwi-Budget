@@ -33,20 +33,20 @@
                   >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="date"
+            v-model="editedItem.Date"
             label="Date"
             prepend-icon="event"
             readonly
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+        <v-date-picker v-model="editedItem.date" @input="menu2 = false"></v-date-picker>
           </v-menu>
             </v-flex>
                 <v-flex xs12>
                   <v-select
-                    v-model="e1"
-                    :items="states"
+                    v-model="editedItem.Category"
+                    :items="categories"
                     menu-props="auto"
                     label="Category"
                     hide-details
@@ -55,10 +55,10 @@
                   ></v-select>
                 </v-flex>
                 <v-flex xs12 class="mt-4">
-                  <v-text-field prepend-icon="attach_money" type="number" v-model="editedItem.cost" label="Cost"></v-text-field>
+                  <v-text-field prepend-icon="attach_money" type="number" v-model="editedItem.Cost" label="Cost"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-textarea prepend-icon="edit" maxlength="50" counter v-model="editedItem.description" label="Description"></v-textarea>
+                  <v-textarea prepend-icon="edit" maxlength="50" counter v-model="editedItem.Description" label="Description"></v-textarea>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -113,6 +113,7 @@ export default {
   data: () => ({
     dialog: false,
     menu2: false,
+    categories: ['groceries', 'Rent'],
     headers: [
       {
         text: 'Name',
@@ -130,15 +131,15 @@ export default {
     editedItem: {
       name: '',
       date: 0,
-      category: 0,
-      description: 0,
+      category: null,
+      description: '',
       cost: 0
     },
     defaultItem: {
       name: '',
-      date: 0,
-      category: 0,
-      description: 0,
+      date: new Date().toISOString().substr(0, 10),
+      category: null,
+      description: '',
       cost: 0
     }
   }),
@@ -164,7 +165,6 @@ export default {
         cost: this.editedItem.cost
       }).then(res => {
         if (res) {
-          this.ClearFields()
           this.$toasted.show('Record Added successfully', {
             theme: 'bubble',
             position: 'top-right',
@@ -181,7 +181,6 @@ export default {
             icon: 'error'
           })
         }
-        this.ClosedClicked()
       }).catch(e => {
         this.$toasted.show('Failed to Add record. Please try again.', {
           theme: 'bubble',
@@ -215,7 +214,7 @@ export default {
     deleteItem (item) {
       const index = this.data.indexOf(item)
       if (confirm('Are you sure you want to delete this record?')) {
-        axios.post('/api/records/deleteRecord', {id: item.id}).then(res => {
+        axios.post('/api/record/deleteRecord', {id: item.id}).then(res => {
           if (res) {
             this.data.splice(index, 1)
           } else {
@@ -245,8 +244,40 @@ export default {
         this.editedIndex = -1
       }, 300)
     },
+    EditRecord () {
+      axios.post('/api/record/editRecord', { 
+        record: this.editedItem
+      }).then(res => {
+        if (res) {
+          this.$toasted.show('Record edited successfully', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'success',
+            icon: 'check_circle'
+          })
+        } else {
+          this.$toasted.show('Failed to edite record. Please try again.', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'error',
+            icon: 'error'
+          })
+        }
+      }).catch(e => {
+        this.$toasted.show('Failed to edite record. Please try again.', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'error',
+            icon: 'error'
+          })
+      })
+    },
     save () {
       if (this.editedIndex > -1) {
+        this.EditRecord();
         Object.assign(this.data[this.editedIndex], this.editedItem)
       } else {
         this.AddRecord()

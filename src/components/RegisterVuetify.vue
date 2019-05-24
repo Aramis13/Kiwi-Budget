@@ -13,10 +13,13 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field prepend-icon="alternate_email" label="Email" required></v-text-field>
+                <v-text-field prepend-icon="person" label="Username" v-model="userName" required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field prepend-icon="lock" label="Password" type="password" required></v-text-field>
+                <v-text-field prepend-icon="alternate_email" label="Email" v-model="email" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field prepend-icon="lock" label="Password" type="password" v-model="password" required></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
