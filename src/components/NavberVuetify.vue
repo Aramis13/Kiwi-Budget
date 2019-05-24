@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data: () => ({
     theme: 'light',
@@ -42,7 +43,27 @@ export default {
       } else {
         this.theme = 'light'
       }
-      this.$root.$emit('ThemeChanged', this.theme)
+      axios.post('/api/configuration/changeTheme', {theme: this.theme}).then(res => {
+        if (!res) {
+          this.$toasted.show('Failed to change theme. Please try again.', {
+            theme: 'bubble',
+            position: 'top-right',
+            duration: 5000,
+            type: 'error',
+            icon: 'error'
+          })
+        } else {
+          this.$root.$emit('ThemeChanged', this.theme)
+        }
+      }).catch(e => {
+        this.$toasted.show('Failed to change theme. Please try again.', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+      })
     },
     Logout () {
       this.$root.$emit('logedOut')

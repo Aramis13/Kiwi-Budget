@@ -108,7 +108,6 @@
 
 <script>
 import axios from 'axios'
-
 export default {
   data: () => ({
     dialog: false,
@@ -154,8 +153,20 @@ export default {
     }
   },
   created () {
+    axios.get('/api/configuration/getTheme').then(res => {
+      this.$root.$emit('ThemeChanged', res.data)
+    }).catch(e => {
+      // ToDo
+    })
     this.GetRecords()
   },
+  // mounted () {
+  //   axios.get('/api/configuration/getTheme').then(res => {
+  //     this.$root.$emit('ThemeChanged', res.data)
+  //   }).catch(e => {
+  //     // ToDo
+  //   })
+  // },
   methods: {
     AddRecord () {
       axios.post('/api/record/addRecord', {
@@ -245,7 +256,7 @@ export default {
       }, 300)
     },
     EditRecord () {
-      axios.post('/api/record/editRecord', { 
+      axios.post('/api/record/editRecord', {
         record: this.editedItem
       }).then(res => {
         if (res) {
@@ -267,17 +278,17 @@ export default {
         }
       }).catch(e => {
         this.$toasted.show('Failed to edite record. Please try again.', {
-            theme: 'bubble',
-            position: 'top-right',
-            duration: 5000,
-            type: 'error',
-            icon: 'error'
-          })
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
       })
     },
     save () {
       if (this.editedIndex > -1) {
-        this.EditRecord();
+        this.EditRecord()
         Object.assign(this.data[this.editedIndex], this.editedItem)
       } else {
         this.AddRecord()
