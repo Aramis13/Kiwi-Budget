@@ -1,32 +1,29 @@
 const Record = require('../models/record.model');
 const AuthController = require('./authentication.controller');
 const User = require('../models/user.model');
+const Connection = require('../models/connection.model');
 
 exports.AddRecord = function (req, res) {
     let data = AuthController.verifyToken(req, res);
     if (data.auth){
-        try {
-            let email = data.message.id;
-            User.findOne({email: email}, 'userName', function (err, obj){
-                if (err) res.status(500).end();
-                let info = req.body;
-                let record = new Record({
-                    email: email,
-                    name: obj.userName,
-                    date: info.date,
-                    category: info.category,
-                    description: info.description,
-                    cost: info.cost
-                });
-                record.save(function (err){
-                    if (err) res.status(500).end();
-                    res.status(200).send(true);
-                });
+        let email = data.message.id;
+        User.findOne({email: email}).then(user => {
+            let info = req.body;
+            let record = new Record({
+                email: email,
+                name: user.userName,
+                date: info.date,
+                category: info.category,
+                description: info.description,
+                cost: info.cost
             });
-        }
-        catch {
-            res.status(500).end();
-        }
+            return record.save();
+        }).then((obj, err) => {
+            if (err) throw err;
+            res.send(200, true);
+        }).catch(e => {
+            res.send(500, e);
+        });
     }
     else {
         res.send(false);
@@ -54,12 +51,11 @@ exports.EditRecord = function (req, res) {
 
 exports.GetRecords = function (req, res) {
     let data = AuthController.verifyToken(req, res);
+    let records = [];
     if (data.auth){
         let email = data.message.id;
-        Record.find({ email: email}, function (err, arr){
-            if (err) res.status(500).end();
-            let records = [];
-            arr.forEach(record => {
+        Record.find({email: email}).then(userRecords => {
+            userRecords.forEach(record => {
                 records.push({
                     id: record._id,
                     Name: record.name,
@@ -68,9 +64,32 @@ exports.GetRecords = function (req, res) {
                     Description: record.description,
                     Cost: record.cost
                 });
-            })
-            res.status(200).send(records);
-        })
+            });
+            return;
+        }).then(() => {
+            return Connection.findOne({email: email});
+        }).then(connectionsInfo => {
+            if (connectionsInfo != null)
+                return Record.find({email: {$in: connectionsInfo.connections}});
+            else
+                return [];
+        }).then(connectionsRecords => {
+            connectionsRecords.forEach(record => {
+                records.push({
+                    id: record._id,
+                    Name: record.name,
+                    Date: new Date(record.date).toISOString().slice(0, 10),
+                    Category: record.category,
+                    Description: record.description,
+                    Cost: record.cost
+                });
+            });
+            return;
+        }).then(() => {
+            res.send(200, records);
+        }).catch(e => {
+            res.send(500, false);
+        });   
     }
     else {
         res.send(false);

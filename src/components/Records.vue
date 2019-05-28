@@ -40,7 +40,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="editedItem.date" @input="menu2 = false"></v-date-picker>
+        <v-date-picker v-model="editedItem.Date" @input="menu2 = false"></v-date-picker>
           </v-menu>
             </v-flex>
                 <v-flex xs12>
@@ -128,14 +128,14 @@ export default {
     data: [],
     editedIndex: -1,
     editedItem: {
-      name: '',
-      date: 0,
+      Name: '',
+      date: new Date().toISOString().substr(0, 10),
       category: null,
       description: '',
       cost: 0
     },
     defaultItem: {
-      name: '',
+      Name: '',
       date: new Date().toISOString().substr(0, 10),
       category: null,
       description: '',
@@ -163,10 +163,10 @@ export default {
   methods: {
     AddRecord () {
       axios.post('/api/record/addRecord', {
-        date: this.editedItem.date,
-        category: this.editedItem.category,
-        description: this.editedItem.description,
-        cost: this.editedItem.cost
+        date: this.editedItem.Date,
+        category: this.editedItem.Category,
+        description: this.editedItem.Description,
+        cost: this.editedItem.Cost
       }).then(res => {
         if (res) {
           this.$toasted.show('Record Added successfully', {
