@@ -1,6 +1,6 @@
 const Connection = require('../models/connection.model');
 const AuthController = require('./authentication.controller');
-const UserController = require('./user.controller');
+const User = require('../models/user.model');
 
 exports.AddConnection = function (req, res) {
     let data = AuthController.verifyToken(req, res);
@@ -8,16 +8,20 @@ exports.AddConnection = function (req, res) {
         let email = data.message.id;
         let connection = req.body.email;
         Connection.findOneAndUpdate({email: email},
-            {$addToSet: {connections: connection}},
-            {safe: true, upsert: true},
-            function(err, doc) {
-                if(err) res.status(500).send(false);
-                else res.status(200).send({
-                    Username: UserController.GetUserName(connection), // Todo: use sockets
-                    Email: connection
-                });
-            }
-        );
+        {$addToSet: {connections: connection}}, {safe: true, upsert: true}).then(response => {
+            if (response == null) throw 'Failed to add connection!';
+            return User.findOne({email: connection});
+        })
+        .then(user => {
+            if (user == null) throw 'User Not In System';
+            res.send(200, {
+                Username: user.userName,
+                Email: user.email
+            });       
+        })
+        .catch(e => {
+            res.send(500, null);
+        });
     }
     else {
         res.send(false);
@@ -47,25 +51,25 @@ exports.GetConnections = function (req, res) {
     let data = AuthController.verifyToken(req, res);
     if (data.auth) {
         let email = data.message.id;
-        Connection.findOne({email: email}, function (err, result){
-            if (err) res.status(500).send(null);
-            else {
-                if (result == null) {
-                    res.status(200).send([]);
-                    return;
-                } 
-                let data = [];
-                result.connections.forEach(email => {
-                    data.push({
-                        Username: UserController.GetUserName(email), // Todo: use sockets
-                        Email: email
-                    });
+        Connection.findOne({email: email}).then(response => {
+            if (response == null) throw 'No connections found!';
+            return User.find({email: {$in: response.connections}});
+        })
+        .then(users => {
+            let data = [];
+            users.forEach(user => {
+                data.push({
+                    Username: user.userName,
+                    Email: user.email
                 });
-                res.status(200).send(data);
-            }
-        });
+            });
+            res.send(200, data);
+        })
+        .catch(e => {
+            res.send(500, null);
+        })
     }
     else {
-        res.send(null);
+        res.send(500, null);
     }
 }

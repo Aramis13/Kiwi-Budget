@@ -70,19 +70,6 @@ exports.DeleteUser = function (req, res) {
     });
 }
 
-exports.GetUserName = function (userEmail) {
-    return getUsername(userEmail);
-}
-
-function getUsername(userEmail) { // Todo: use sockets
-    User.findOne({email: userEmail}, 'userName', function (err, userName) {
-        if (err) return 'User Not In System';
-        if (userName == null) return 'User Not In System'; 
-        return userName;
-    });
-    return 'User Not In System';
-}
-
 exports.GetUserNameFromClient = function (req, res) {
     let data = AuthController.verifyToken(req, res);
     if (data.auth) {
