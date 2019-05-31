@@ -107,7 +107,10 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        this.loading = false
       })
+      
     },
     AddConnection () {
       Axios.post('/api/connection/addConnection', {
