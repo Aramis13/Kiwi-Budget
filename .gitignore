@@ -16,5 +16,5 @@ selenium-debug.log
 *.njsproj
 *.sln
 
-/config/default.json
-/config/production.json
+# /config/default.json
+# /config/production.json
