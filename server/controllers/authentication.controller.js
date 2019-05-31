@@ -24,8 +24,12 @@ exports.verifyToken = function (req, res) {
                 return { auth: false, message: 'Failed to authenticate token.' };
               }
         }
+        else {
+            return { auth: false, message: 'No token provided.' };
+        }
     }
-    else return { auth: false, message: 'No token provided.' };
+    else 
+        return { auth: false, message: 'No token provided.' };
 }
 
 exports.verifyPassword = function(dbPassword, clientPassword) {

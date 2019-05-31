@@ -34,7 +34,6 @@ export default {
     this.navbarVisible = this.$route.name !== 'login'
     this.$root.$on('logedIn', () => {
       this.navbarVisible = true
-      location.reload()
     })
     this.$root.$on('logedOut', () => {
       this.navbarVisible = false

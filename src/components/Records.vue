@@ -8,9 +8,17 @@
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
+         <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+            class="mb-2"
+          ></v-text-field>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark class="mb-2" v-on="on">Add Record</v-btn>
+          <v-btn color="primary" class="mb-2" v-on="on">Add Record</v-btn>
         </template>
         <v-card>
           <v-card-title>
@@ -63,7 +71,6 @@
               </v-layout>
             </v-container>
           </v-card-text>
-
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
@@ -75,8 +82,14 @@
     <v-data-table
       :headers="headers"
       :items="data"
+      :search="search"
       class="elevation-1"
     >
+     <template v-slot:no-results>
+        <v-alert :value="true" color="warning" icon="warning">
+          Your search for "{{ search }}" found no results.
+        </v-alert>
+      </template>
       <template v-slot:items="props">
         <td>{{ props.item.Name }}</td>
         <td>{{ props.item.Date }}</td>
@@ -111,8 +124,9 @@ import axios from 'axios'
 export default {
   data: () => ({
     dialog: false,
+    search: '',
     menu2: false,
-    categories: ['groceries', 'Rent'],
+    categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity'],
     headers: [
       {
         text: 'Name',
@@ -128,14 +142,14 @@ export default {
     data: [],
     editedIndex: -1,
     editedItem: {
-      Name: '',
+      Name: localStorage.getItem('portfolioManagerUserName'),
       date: new Date().toISOString().substr(0, 10),
       category: null,
       description: '',
       cost: 0
     },
     defaultItem: {
-      Name: '',
+      Name: localStorage.getItem('portfolioManagerUserName'),
       date: new Date().toISOString().substr(0, 10),
       category: null,
       description: '',
@@ -153,11 +167,6 @@ export default {
     }
   },
   created () {
-    // axios.get('/api/configuration/getTheme').then(res => {
-    //   this.$root.$emit('ThemeChanged', res.data)
-    // }).catch(e => {
-    //   // ToDo
-    // })
     this.GetRecords()
   },
   methods: {
@@ -221,6 +230,13 @@ export default {
         axios.post('/api/record/deleteRecord', {id: item.id}).then(res => {
           if (res) {
             this.data.splice(index, 1)
+            this.$toasted.show('Record deleted successfully', {
+              theme: 'bubble',
+              position: 'top-right',
+              duration: 5000,
+              type: 'success',
+              icon: 'check_circle'
+            })
           } else {
             this.$toasted.show('Failed to delete record. Please try again.', {
               theme: 'bubble',
