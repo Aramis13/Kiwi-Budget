@@ -36,12 +36,13 @@
     <v-data-table
       :headers="headers"
       :items="connections"
+      :loading="loading"
       class="elevation-1"
     >
       <template v-slot:items="props">
         <td>{{ props.item.Username }}</td>
         <td>{{ props.item.Email }}</td>
-        <td class="justify-left layout px-0 ml-4">
+        <td class="justify-left layout px-0" style="margin-left:30px !important">
           <v-icon
             medium
             @click="deleteItem(props.item)"
@@ -51,7 +52,7 @@
         </td>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="GetConnections">Reset</v-btn>
+        <v-btn color="primary" @click="GetConnections, loading=true">Reset</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -62,6 +63,7 @@ import Axios from 'axios'
 export default {
   data: () => ({
     dialog: false,
+    loading: true,
     headers: [
       { text: 'Username', value: 'Username' },
       { text: 'Email', value: 'Email' },

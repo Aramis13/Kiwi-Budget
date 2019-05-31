@@ -83,6 +83,7 @@
       :headers="headers"
       :items="data"
       :search="search"
+      :loading="loading"
       class="elevation-1"
     >
      <template v-slot:no-results>
@@ -113,7 +114,7 @@
         </td>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="GetRecords">Reset</v-btn>
+        <v-btn color="primary" @click="GetRecords, loading=true">Reset</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -125,6 +126,7 @@ export default {
   data: () => ({
     dialog: false,
     search: '',
+    loading: true,
     menu2: false,
     categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity'],
     headers: [
@@ -217,6 +219,8 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        this.loading = false
       })
     },
     editItem (item) {
