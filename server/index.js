@@ -9,7 +9,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('config');
 const path = require('path');
-
+const socket = require('./sockets/public.socket');
+const server = socket.Initialize(app);
 
 let mongoDB = config.get('MONGODB_URI');
 mongoose.connect(mongoDB, { useNewUrlParser: true });
@@ -30,4 +31,4 @@ app.get('*', function(req, res){
     res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
 });
 
-app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+server.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

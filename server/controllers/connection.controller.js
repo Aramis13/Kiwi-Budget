@@ -88,7 +88,7 @@ exports.GetConnections = function (req, res) {
         .catch(e => {
             if (e.local) res.send(200, []);
             else res.send(500, []);
-        })
+        });
     }
     else {
         res.send(200, null);

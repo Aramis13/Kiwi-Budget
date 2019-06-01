@@ -110,7 +110,6 @@ export default {
       }).finally(() => {
         this.loading = false
       })
-      
     },
     AddConnection () {
       Axios.post('/api/connection/addConnection', {
@@ -174,16 +173,6 @@ export default {
     },
     save () {
       this.AddConnection()
-
-      // Axios.get('/api/user/getUserName', {email: this.editedItem.Email}).then(res => {
-      //   this.editedItem.Username = res.data
-      //   this.connections.push({
-      //     Username: res.data,
-      //     Email: this.editedItem.email
-      //   })
-      // }).catch(e => {
-      //   // Todo
-      // })
       this.close()
     }
   }

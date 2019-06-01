@@ -168,6 +168,17 @@ export default {
       val || this.close()
     }
   },
+  sockets: {
+    RecordAdded: function (message) {
+      this.$toasted.show(message, {
+        theme: 'bubble',
+        position: 'top-right',
+        duration: 5000,
+        type: 'info',
+        icon: 'info_outline'
+      })
+    }
+  },
   created () {
     this.GetRecords()
   },
@@ -180,6 +191,7 @@ export default {
         cost: this.editedItem.Cost
       }).then(res => {
         if (res) {
+          this.$socket.emit('RecordAdded')
           this.$toasted.show('Record Added successfully', {
             theme: 'bubble',
             position: 'top-right',
