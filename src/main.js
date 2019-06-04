@@ -11,10 +11,9 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueSocketIO from 'vue-socket.io'
 
-// Vue.use(VueSocketIO, window.location.origin)
-// Vue.use(new VueSocketIO({
-//   connection: window.location.origin
-// }))
+Vue.use(new VueSocketIO({
+  connection: window.location.origin
+}))
 Vue.use(Vuetify)
 Vue.use(Toasted)
 Vue.use(VueCookie)
