@@ -24,15 +24,18 @@ exports.GetTheme = function (req, res) {
     if (data.auth){
         let email = data.message.id;
         Configuration.findOne({email: email}, function (err, config) {
-            if (err) res.send(false);
+            if (err) {
+                res.send('light');
+                return;
+            } 
             if (config == null) {
-                res.end(false);
+                res.end('light');
                 return;
             }
             res.send(200, config.theme.toObject());
         });
     }
     else {
-        res.send(false);
+        res.send('light');
     }
 }
