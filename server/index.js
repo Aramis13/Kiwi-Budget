@@ -9,8 +9,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const config = require('config');
 const path = require('path');
-// const socket = require('./sockets/public.socket');
-// const server = socket.Initialize(app);
+const socket = require('./sockets/public.socket');
+const server = socket.Initialize(app);
 
 let mongoDB = config.get('MONGODB_URI');
 mongoose.connect(mongoDB, { useNewUrlParser: true });

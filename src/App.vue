@@ -33,11 +33,11 @@ export default {
   mounted () {
     this.navbarVisible = this.$route.name !== 'login'
     if (this.navbarVisible) {
-      // this.$socket.emit('logedin')
+      this.$socket.emit('logedin')
     }
     this.$root.$on('logedIn', () => {
       this.navbarVisible = true
-      // this.$socket.emit('logedin')
+      this.$socket.emit('logedin')
     })
     this.$root.$on('logedOut', () => {
       this.navbarVisible = false

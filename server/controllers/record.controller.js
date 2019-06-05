@@ -86,7 +86,7 @@ exports.GetRecords = function (req, res) {
             });
             return;
         }).then(() => {
-            res.send(200, records);
+            res.status(200).send(records);
         }).catch(e => {
             res.send(500, false);
         });   
