@@ -47,7 +47,9 @@ function GetEmail (client) {
 }
 
 function JoinRoom (client, io) {
+    console.log('Joining Room');
     let email = GetEmail(client);
+    console.log(email + ' Joining');
     if (email){
         Connection.findOne({email: email}).then(response => {
             if (response == null) return;
@@ -65,12 +67,13 @@ function JoinRoom (client, io) {
                 client.join(response.email);
         })
         .catch(e => {
-            // ToDo
+            console.error(e);
         });
     }
 }
 
 function NotifayConnections () {
+    console.log('Notifaying Connections')
     let email = GetEmail(this);
     if (email) {
         Connection.findOne({email: email}).then(response => {
@@ -89,10 +92,11 @@ function NotifayConnections () {
             return User.findOne({email: roomName});
         })
         .then(user => {
-            this.to(user.email).emit('RecordAdded', user.userName + ' added a new record');
+            this.broadcast.emit('RecordAdded', user.userName + ' added a new record');
+            // this.to(user.email).emit('RecordAdded', user.userName + ' added a new record');
         })
         .catch(e => {
-            // ToDo
+            console.error(e);
         });
     }
 }
