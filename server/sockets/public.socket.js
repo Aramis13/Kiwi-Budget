@@ -75,11 +75,11 @@ function JoinRoom (client, io) {
 function NotifayConnections () {
     console.log('Notifaying Connections')
     let email = GetEmail(this);
+    let roomName;
     if (email) {
         Connection.findOne({email: email}).then(response => {
             if (response == null) return;
             let rooms = io.sockets.adapter.rooms;
-            let roomName;
             response.connections.forEach(conn => {
                 let room = rooms[conn];
                 if (room) {
@@ -89,11 +89,11 @@ function NotifayConnections () {
             });
             if (!roomName)
                 roomName = email;
-            return User.findOne({email: roomName});
+            return User.findOne({email: email});
         })
         .then(user => {
-            this.broadcast.emit('RecordAdded', user.userName + ' added a new record');
-            // this.to(user.email).emit('RecordAdded', user.userName + ' added a new record');
+            // this.broadcast.emit('RecordAdded', user.userName + ' added a new record');
+            this.to(roomName).emit('RecordAdded', user.userName + ' added a new record');
         })
         .catch(e => {
             console.error(e);
