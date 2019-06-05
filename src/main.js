@@ -11,17 +11,17 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueSocketIO from 'vue-socket.io'
 
-let connectionStr
-if (window.location.hostname === 'localhost') {
-  connectionStr = window.location.origin
-} else {
-  connectionStr = 'http://' + window.location.hostname
-}
+// let connectionStr
+// if (window.location.hostname === 'localhost') {
+//   connectionStr = window.location.origin
+// } else {
+//   connectionStr = 'http://' + window.location.hostname
+// }
 
 Vue.use(Vuetify)
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: connectionStr
+  connection: window.location.origin
 }))
 Vue.use(Toasted)
 Vue.use(VueCookie)
