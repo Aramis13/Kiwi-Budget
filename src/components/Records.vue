@@ -168,17 +168,28 @@ export default {
       val || this.close()
     }
   },
-  sockets: {
-    RecordAdded: function (message) {
-      this.$toasted.show(message, {
+  created () {
+    socket.on('RecordAdded').then(message => {
+        this.$toasted.show(message, {
         theme: 'bubble',
         position: 'top-right',
         duration: 5000,
         type: 'info',
         icon: 'info_outline'
       })
-    }
+    })
   },
+  // sockets: {
+  //   RecordAdded: function (message) {
+  //     this.$toasted.show(message, {
+  //       theme: 'bubble',
+  //       position: 'top-right',
+  //       duration: 5000,
+  //       type: 'info',
+  //       icon: 'info_outline'
+  //     })
+  //   }
+  // },
   created () {
     this.GetRecords()
   },
