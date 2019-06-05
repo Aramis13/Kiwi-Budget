@@ -9,18 +9,20 @@ import VueCookie from 'vue-cookie'
 import Toasted from 'vue-toasted'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-import io from 'socket.io-client'
-// import VueSocketIO from 'vue-socket.io'
+import VueSocketIO from 'vue-socket.io'
 
-// let connectionStr = window.location.hostname
-// if (connectionStr === 'localhost') {
-//   connectionStr = window.location.origin
-// }
-Vue.use(io(window.location.origin))
+let connectionStr
+if (window.location.hostname === 'localhost') {
+  connectionStr = window.location.origin
+} else {
+  connectionStr = 'http://' + window.location.hostname
+}
+
 Vue.use(Vuetify)
-// Vue.use(new VueSocketIO({
-//   connection: 'http://localhost:8080'
-// }))
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: connectionStr
+}))
 Vue.use(Toasted)
 Vue.use(VueCookie)
 Vue.config.productionTip = false
