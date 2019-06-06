@@ -8,7 +8,7 @@ exports.AddRecord = function (req, res) {
     if (data.auth){
         let email = data.message.id;
         User.findOne({email: email}).then(user => {
-            let info = req.body;
+            let info = req.body.record;
             let record = new Record({
                 email: email,
                 name: user.userName,

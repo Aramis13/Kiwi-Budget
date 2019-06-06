@@ -169,8 +169,15 @@ export default {
     }
   },
   sockets: {
-    RecordAdded: function (message) {
-      this.$toasted.show(message, {
+    RecordAdded: function (json) {
+      this.data.push({
+        Name: json.record.name,
+        Date: json.record.date,
+        Category: json.record.category,
+        Description: json.record.description,
+        Cost: json.record.cost
+      })
+      this.$toasted.show(json.message, {
         theme: 'bubble',
         position: 'top-right',
         duration: 5000,
@@ -184,14 +191,18 @@ export default {
   },
   methods: {
     AddRecord () {
-      axios.post('/api/record/addRecord', {
+      let record = {
+        name: localStorage.getItem('portfolioManagerUserName'),
         date: this.editedItem.Date,
         category: this.editedItem.Category,
         description: this.editedItem.Description,
         cost: this.editedItem.Cost
+      }
+      axios.post('/api/record/addRecord', {
+        record
       }).then(res => {
         if (res) {
-          this.$socket.emit('RecordAdded')
+          this.$socket.emit('RecordAdded', record)
           this.$toasted.show('Record Added successfully', {
             theme: 'bubble',
             position: 'top-right',

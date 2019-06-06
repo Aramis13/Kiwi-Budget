@@ -18,7 +18,7 @@ function ConnectionsListner (client) {
     console.log('Client connected...');
     client.on('disconnect', DisconnectListner);
     client.on('logedin', JoinRoom.bind(null, client, io));
-    client.on('RecordAdded', NotifayConnections);
+    client.on('RecordAdded', NotifayRecordAdded);
 }
 
 function DisconnectListner () {
@@ -72,7 +72,7 @@ function JoinRoom (client, io) {
     }
 }
 
-function NotifayConnections () {
+function NotifayRecordAdded (record) {
     console.log('Notifaying Connections')
     let email = GetEmail(this);
     let roomName;
@@ -92,8 +92,10 @@ function NotifayConnections () {
             return User.findOne({email: email});
         })
         .then(user => {
-            // this.broadcast.emit('RecordAdded', user.userName + ' added a new record');
-            this.to(roomName).emit('RecordAdded', user.userName + ' added a new record');
+            this.to(roomName).emit('RecordAdded', {
+                message: user.userName + ' added a new record',
+                record
+            });
         })
         .catch(e => {
             console.error(e);
