@@ -15,13 +15,15 @@ exports.AddConnection = function (req, res) {
             if (user == null) {
                 res.send(200, {
                     Username: 'User Not In System',
-                    Email: connection
+                    Email: connection,
+                    Status: false
                 });       
             }
             else {
                 res.send(200, {
                     Username: user.userName,
-                    Email: user.email
+                    Email: user.email,
+                    Status: user.status
                 });     
             }  
         })
@@ -71,7 +73,8 @@ exports.GetConnections = function (req, res) {
                 users.forEach(user => {
                     data.push({
                         Username: user.userName,
-                        Email: user.email
+                        Email: user.email,
+                        Status: user.status
                     });
                 });
             }
@@ -79,7 +82,8 @@ exports.GetConnections = function (req, res) {
                 connections.forEach(email => {
                     data.push({
                         Username: 'User Not In System',
-                        Email: email
+                        Email: email,
+                        Status: false
                     });
                 });
             }

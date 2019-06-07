@@ -75,7 +75,9 @@ export default {
           this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
           localStorage.setItem('portfolioManagerUserName', data.userName)
           this.$router.push({ name: 'dashboard' })
-          this.$root.$emit('logedIn')
+          setTimeout(() => {
+            this.$root.$emit('logedIn')
+          }, 5000);
           // eslint-disable-next-line
         }
         else {

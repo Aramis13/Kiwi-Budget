@@ -9,16 +9,11 @@ import VueCookie from 'vue-cookie'
 import Toasted from 'vue-toasted'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-// import VueSocketIO from 'vue-socket.io'
 import VueSocketio from 'vue-socket.io-extended'
 import io from 'socket.io-client'
 
 Vue.use(VueSocketio, io())
 Vue.use(Vuetify)
-// Vue.use(new VueSocketIO({
-//   debug: true,
-//   connection: window.location.origin
-// }))
 Vue.use(Toasted)
 Vue.use(VueCookie)
 Vue.config.productionTip = false

@@ -41,6 +41,7 @@ export default {
     })
     this.$root.$on('logedOut', () => {
       this.navbarVisible = false
+      this.$socket.emit('logedOut')
     })
     this.$root.$on('ThemeChanged', (theme) => {
       if (this.theme !== theme) {

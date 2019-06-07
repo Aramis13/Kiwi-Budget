@@ -42,6 +42,8 @@
       <template v-slot:items="props">
         <td>{{ props.item.Username }}</td>
         <td>{{ props.item.Email }}</td>
+        <td v-if="props.item.Status"><v-icon medium color="green">cast_connected</v-icon></td>
+        <td v-if="!props.item.Status"><v-icon medium>cast</v-icon></td>
         <td class="justify-left layout px-0" style="margin-left:30px !important">
           <v-icon
             medium
@@ -67,17 +69,20 @@ export default {
     headers: [
       { text: 'Username', value: 'Username' },
       { text: 'Email', value: 'Email' },
+      { text: 'Online', value: 'Status' },
       { text: 'Action', value: 'name', sortable: false }
     ],
     connections: [],
     editedIndex: -1,
     editedItem: {
       Username: '',
-      Email: ''
+      Email: '',
+      Status: false
     },
     defaultItem: {
       Username: '',
-      Email: ''
+      Email: '',
+      Status: false
     }
   }),
   computed: {
@@ -92,6 +97,25 @@ export default {
   },
   created () {
     this.GetConnections()
+  },
+  sockets: {
+    NewLogin (json) {
+      let connection = this.connections.find(x => x.Email === json.connection.email)
+      if (!connection) return
+      connection.Status = json.connection.status
+      this.$toasted.show(json.message, {
+        theme: 'bubble',
+        position: 'top-right',
+        duration: 5000,
+        type: 'info',
+        icon: 'info_outline'
+      })
+    },
+    NewLogout (user) {
+      let connection = this.connections.find(x => x.Email === user.response.email)
+      if (!connection) return
+      connection.Status = user.response.status
+    }
   },
   methods: {
     GetConnections () {

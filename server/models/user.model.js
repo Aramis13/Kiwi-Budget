@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 let UserShema = new Schema({
     userName: {type: String, required: true},
     email: {type: String, required: true, unique: true, dropDups: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    status: {type: Boolean, default: false}
 });
 
 // Export the model
