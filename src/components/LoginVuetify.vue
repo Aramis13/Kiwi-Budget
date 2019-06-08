@@ -77,7 +77,7 @@ export default {
           this.$router.push({ name: 'dashboard' })
           setTimeout(() => {
             this.$root.$emit('logedIn')
-          }, 5000);
+          }, 5000)
           // eslint-disable-next-line
         }
         else {

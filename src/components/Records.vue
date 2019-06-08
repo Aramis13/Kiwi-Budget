@@ -128,7 +128,8 @@ export default {
     search: '',
     loading: true,
     menu2: false,
-    categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity'],
+    categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity', 'Car', 'Clothing', 'Health',
+      'Friends', 'Furniture'].sort(),
     headers: [
       {
         text: 'Name',
