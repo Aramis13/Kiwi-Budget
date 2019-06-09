@@ -8,6 +8,33 @@
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
+      <v-flex xs11 sm5 style="margin-top: 14px!important;">
+      <v-dialog
+        ref="dialog"
+        v-model="modal"
+        :return-value.sync="date"
+        persistent
+        lazy
+        full-width
+        width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="date"
+            label="Month"
+            prepend-icon="event"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="date" type="month" scrollable>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+          <v-btn flat color="primary" @click="$refs.dialog.save(date), GetRecords(), data=[], loading=true">OK</v-btn>
+        </v-date-picker>
+      </v-dialog>
+    </v-flex>
+      <v-spacer></v-spacer>
          <v-text-field
             v-model="search"
             append-icon="search"
@@ -16,6 +43,7 @@
             hide-details
             class="mb-2"
           ></v-text-field>
+          <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
           <v-btn color="primary" class="mb-2" v-on="on">Add Record</v-btn>
@@ -48,7 +76,7 @@
             v-on="on"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="editedItem.Date" @input="menu2 = false"></v-date-picker>
+        <v-date-picker :show-current="true" v-model="editedItem.Date" @input="menu2 = false"></v-date-picker>
           </v-menu>
             </v-flex>
                 <v-flex xs12>
@@ -128,6 +156,8 @@ export default {
     search: '',
     loading: true,
     menu2: false,
+    modal: false,
+    date: new Date().toISOString().substr(0, 7),
     categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity', 'Car', 'Clothing', 'Health',
       'Friends', 'Furniture'].sort(),
     headers: [
@@ -231,7 +261,11 @@ export default {
       })
     },
     GetRecords () {
-      axios.get('/api/record/getRecords').then(res => {
+      axios.get('/api/record/getRecordsMonth', {
+        params: {
+          month: this.date
+        }
+      }).then(res => {
         res.data.forEach(record => {
           this.data.push(record)
         })

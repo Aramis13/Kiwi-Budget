@@ -7,6 +7,7 @@
     <v-toolbar-title class="primary--text hidden-xs-only">Kiwi Budget</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
+      <v-btn flat class="accent--text" to="/statistics">Statistics</v-btn>
       <v-btn flat class="accent--text" to="/records">Records</v-btn>
       <v-btn flat class="accent--text" to="/connections">Connections</v-btn>
     <v-menu offset-y>

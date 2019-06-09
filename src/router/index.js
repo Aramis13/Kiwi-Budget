@@ -4,6 +4,7 @@ import VueCookie from 'vue-cookie'
 import Connections from '@/components/Connections'
 import Records from '@/components/Records'
 import Login from '@/components/LoginVuetify'
+import Statistics from '@/components/Statistics'
 
 Vue.use(Router)
 const router = new Router({
@@ -26,6 +27,14 @@ const router = new Router({
       path: '/connections',
       name: 'connections',
       component: Connections,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/statistics',
+      name: 'statistics',
+      component: Statistics,
       meta: {
         auth: true
       }
