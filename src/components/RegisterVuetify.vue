@@ -69,6 +69,11 @@ export default {
         })
         return
       }
+      let loader = this.$loading.show({
+        width: 100,
+        height: 100,
+        color: '#1976d2'
+      })
       axios.post('/api/user/createUser', {
         userName: this.userName,
         email: this.email,
@@ -89,6 +94,8 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        loader.hide()
       })
     }
   }

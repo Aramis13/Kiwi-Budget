@@ -8,7 +8,7 @@
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
-      <v-flex xs11 sm5 style="margin-top: 14px!important;">
+      <v-flex xs11 sm5 style="margin-top: 12px!important;">
       <v-dialog
         ref="dialog"
         v-model="modal"
@@ -142,7 +142,7 @@
         </td>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="GetRecords, loading=true">Reset</v-btn>
+        <v-btn color="primary" @click="GetRecords(), data=[], loading=true">Reset</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -229,6 +229,11 @@ export default {
         description: this.editedItem.Description,
         cost: this.editedItem.Cost
       }
+      let loader = this.$loading.show({
+        width: 100,
+        height: 100,
+        color: '#1976d2'
+      })
       axios.post('/api/record/addRecord', {
         record
       }).then(res => {
@@ -258,6 +263,8 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        loader.hide()
       })
     },
     GetRecords () {
@@ -289,6 +296,11 @@ export default {
     deleteItem (item) {
       const index = this.data.indexOf(item)
       if (confirm('Are you sure you want to delete this record?')) {
+        let loader = this.$loading.show({
+          width: 100,
+          height: 100,
+          color: '#1976d2'
+        })
         axios.post('/api/record/deleteRecord', {id: item.id}).then(res => {
           if (res) {
             this.data.splice(index, 1)
@@ -316,6 +328,8 @@ export default {
             type: 'error',
             icon: 'error'
           })
+        }).finally(() => {
+          loader.hide()
         })
       }
     },
@@ -327,6 +341,11 @@ export default {
       }, 300)
     },
     EditRecord () {
+      let loader = this.$loading.show({
+        width: 100,
+        height: 100,
+        color: '#1976d2'
+      })
       axios.post('/api/record/editRecord', {
         record: this.editedItem
       }).then(res => {
@@ -355,6 +374,8 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        loader.hide()
       })
     },
     save () {

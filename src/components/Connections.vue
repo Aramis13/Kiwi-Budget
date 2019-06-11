@@ -136,6 +136,11 @@ export default {
       })
     },
     AddConnection () {
+      let loader = this.$loading.show({
+        width: 100,
+        height: 100,
+        color: '#1976d2'
+      })
       Axios.post('/api/connection/addConnection', {
         email: this.editedItem.Email
       }).then(res => {
@@ -155,9 +160,16 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        loader.hide()
       })
     },
     RemoveConnection (connection) {
+      let loader = this.$loading.show({
+        width: 100,
+        height: 100,
+        color: '#1976d2'
+      })
       Axios.post('/api/connection/removeConnection', connection).then(res => {
         this.$toasted.show('Record removed successfully', {
           theme: 'bubble',
@@ -174,6 +186,8 @@ export default {
           type: 'error',
           icon: 'error'
         })
+      }).finally(() => {
+        loader.hide()
       })
     },
     editItem (item) {

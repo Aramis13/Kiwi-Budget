@@ -11,7 +11,10 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueSocketio from 'vue-socket.io-extended'
 import io from 'socket.io-client'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
+Vue.use(Loading)
 Vue.use(VueSocketio, io())
 Vue.use(Vuetify)
 Vue.use(Toasted)
