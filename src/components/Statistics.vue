@@ -1,10 +1,9 @@
 <template>
-
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
       <v-flex xs12>
         <template>
-          <v-tabs fixed-tabs>
+          <v-tabs fixed-tabs grow>
             <v-tab ripple :key="year">
               Yaer
             </v-tab>
@@ -15,7 +14,7 @@
               <year-view />
             </v-tab-item>
             <v-tab-item :key="month">
-              <h1>TBD</h1>
+              <month-view />
             </v-tab-item>
           </v-tabs>
         </template>
@@ -23,13 +22,14 @@
     </v-layout>
   </v-container>
 </template>
-
 <script>
 
 import YearView from './YearStatistics'
+import MonthView from './MonthStatistics'
 export default {
   components: {
-    YearView
+    YearView,
+    MonthView
   }
 }
 </script>
