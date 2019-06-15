@@ -44,9 +44,9 @@ export default {
       this.$socket.emit('logedOut')
     })
     this.$root.$on('ThemeChanged', (theme) => {
-      if (this.theme !== theme) {
-        this.theme = theme
-      }
+      // if (this.theme !== theme) {
+      this.theme = theme
+      // }
     })
   }
 }

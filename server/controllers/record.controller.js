@@ -160,3 +160,57 @@ exports.GetRecordsMonth = function (req, res) {
         res.send(false);
     }
 }
+
+exports.GetYearRecords = function (req , res) {
+    let data = AuthController.verifyToken(req, res);
+    let records = [];
+    let year = req.query.year;
+    let date = new Date(year);
+    let firstDay = new Date(date.getFullYear(), 0, 1);
+    let lastDay = new Date(date.getFullYear(), 12, 0);
+    if (data.auth) {
+        let email = data.message.id;
+        Record.find({email: email, date: {$gte: firstDay, $lt: lastDay}}).then(userRecords => {
+            userRecords.forEach(record => {
+                records.push({
+                    id: record._id,
+                    Name: record.name,
+                    Date: new Date(record.date).toISOString().slice(0, 10),
+                    Category: record.category,
+                    Description: record.description,
+                    Cost: record.cost
+                });
+            });
+            return;
+        }).then(() => {
+            return Connection.findOne({email: email});
+        }).then(connectionsInfo => {
+            if (connectionsInfo != null)
+                return Record.find({email: {$in: connectionsInfo.connections}, date: {$gte: firstDay, $lt: lastDay}});
+            else
+                return [];
+        }).then(connectionsRecords => {
+            connectionsRecords.forEach(record => {
+                records.push({
+                    id: record._id,
+                    Name: record.name,
+                    Date: new Date(record.date).toISOString().slice(0, 10),
+                    Category: record.category,
+                    Description: record.description,
+                    Cost: record.cost
+                });
+            });
+            return;
+        }).then(() => {
+            records.sort(function(a,b){
+                return new Date(b.Date) - new Date(a.Date);
+            });
+            res.status(200).send(records);
+        }).catch(e => {
+            res.send(500, false);
+        });   
+    }
+    else {
+        res.send(false);
+    }
+}

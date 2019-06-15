@@ -1,24 +1,17 @@
 <script>
-import {Line} from 'vue-chartjs'
-
+import { Doughnut, mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
 export default {
-  extends: Line,
+  extends: Doughnut,
+  mixins: [reactiveProp],
+  props: {
+    options: {
+      type: Object,
+      default: null
+    }
+  },
   mounted () {
-    this.renderChart({
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Data One',
-          backgroundColor: '#FC2525',
-          data: [40, 39, 10, 40, 39, 80, 40]
-        },
-        {
-          label: 'Data Two',
-          backgroundColor: '#05CBE1',
-          data: [60, 55, 32, 10, 2, 12, 53]
-        }
-      ]
-    }, {responsive: true, maintainAspectRatio: false})
+    this.renderChart(this.chartData, this.options)
   }
 }
 </script>
