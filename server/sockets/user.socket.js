@@ -2,8 +2,8 @@ const Connection = require('../models/connection.model');
 const User = require('../models/user.model');
 const PublicSocket = require('./public.socket');
 
-exports.JoinRoom = function (client, io) {
-    let useremail = PublicSocket.GetEmail(client);
+exports.JoinRoom = function (client, io, token) {
+    let useremail = PublicSocket.GetEmail(client, token);
     let roomEmail;
     console.log(useremail + ' Joining');
     if (useremail){

@@ -24,11 +24,7 @@ export default {
     }
   },
   created () {
-    Axios.get('/api/configuration/getTheme').then(res => {
-      this.$root.$emit('ThemeChanged', res.data)
-    }).catch(e => {
-      // ToDo
-    })
+    this.GetTheme()
   },
   mounted () {
     this.navbarVisible = this.$route.name !== 'login'
@@ -37,17 +33,31 @@ export default {
     }
     this.$root.$on('logedIn', () => {
       this.navbarVisible = true
-      this.$socket.emit('logedin')
+      this.GetTheme()
+      this.$socket.emit('logedin', this.$cookie.get('portfolioManagerToken'))
     })
     this.$root.$on('logedOut', () => {
       this.navbarVisible = false
       this.$socket.emit('logedOut')
     })
     this.$root.$on('ThemeChanged', (theme) => {
-      // if (this.theme !== theme) {
       this.theme = theme
-      // }
     })
+  },
+  methods: {
+    GetTheme () {
+      Axios.get('/api/configuration/getTheme').then(res => {
+        this.$root.$emit('ThemeChanged', res.data)
+      }).catch(e => {
+        this.$toasted.show('Unable to get theme!', {
+          theme: 'bubble',
+          position: 'top-right',
+          duration: 5000,
+          type: 'error',
+          icon: 'error'
+        })
+      })
+    }
   }
 }
 </script>

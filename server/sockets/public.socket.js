@@ -35,11 +35,11 @@ function DisconnectListner () {
     userSocket.HandleLogout(this, io);
 }
 
-exports.GetEmail = function (client) {
-    return getEmail(client);
+exports.GetEmail = function (client, token) {
+    return getEmail(client, token);
 }
 
-function getEmail (client) {
+function getEmail (client, session) {
     try {
         if (client.handshake.headers.cookie == null) return null;
         let arr = client.handshake.headers.cookie.split(';')
@@ -48,7 +48,10 @@ function getEmail (client) {
            if (element.includes('portfolioManagerToken'))
             res = element.split('='); 
         });
-        if (res == null) return;
+        if (res == null && session != null) {
+            res = ['', session];
+        }
+        if (res == null) return null;
         let token = {
             cookies: {
                 portfolioManagerToken: res[1]

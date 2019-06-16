@@ -77,12 +77,10 @@ export default {
       }).then(res => {
         let data = res.data
         if (data.auth) {
-          this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
+          this.$cookie.set('portfolioManagerToken', data.token, { expires: '1M' })
           localStorage.setItem('portfolioManagerUserName', data.userName)
           this.$router.push({ name: 'dashboard' })
-          setTimeout(() => {
-            this.$root.$emit('logedIn')
-          }, 5000)
+          this.$root.$emit('logedIn')
           // eslint-disable-next-line
         }
         else {
