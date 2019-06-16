@@ -34,9 +34,10 @@
         </v-date-picker>
       </v-dialog>
     </v-flex>
-      <v-spacer></v-spacer>
+      <v-spacer class="mx-2"></v-spacer>
          <v-text-field
             v-model="search"
+            clearable
             append-icon="search"
             label="Search"
             single-line
@@ -159,7 +160,7 @@ export default {
     modal: false,
     date: new Date().toISOString().substr(0, 7),
     categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity', 'Car', 'Clothing', 'Health',
-      'Friends', 'Furniture'].sort(),
+      'Friends', 'Furniture', 'Pets', 'Entertainment'].sort(),
     headers: [
       {
         text: 'Name',
