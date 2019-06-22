@@ -155,11 +155,11 @@ exports.GetRecordsMonth = function (req, res) {
         }).then(() => {
             res.status(200).send(records);
         }).catch(e => {
-            res.send(500, false);
+            res.send(500, []);
         });   
     }
     else {
-        res.send(false);
+        res.send(200, []);
     }
 }
 
@@ -209,10 +209,10 @@ exports.GetYearRecords = function (req , res) {
             });
             res.status(200).send(records);
         }).catch(e => {
-            res.send(500, false);
+            res.send(500, []);
         });   
     }
     else {
-        res.send(false);
+        res.send(200, []);
     }
 }
