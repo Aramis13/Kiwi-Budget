@@ -160,7 +160,7 @@ export default {
     modal: false,
     date: new Date().toISOString().substr(0, 7),
     categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity', 'Car', 'Clothing', 'Health',
-      'Friends', 'Furniture', 'Pets', 'Entertainment'].sort(),
+      'Friends', 'Furniture', 'Pets', 'Entertainment', 'Transportation'].sort(),
     headers: [
       {
         text: 'Name',

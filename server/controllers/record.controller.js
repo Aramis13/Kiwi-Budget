@@ -55,6 +55,7 @@ exports.GetRecords = function (req, res) {
     if (data.auth){
         let email = data.message.id;
         Record.find({email: email}).then(userRecords => {
+            if (userRecords == null) return;
             userRecords.forEach(record => {
                 records.push({
                     id: record._id,
@@ -74,6 +75,7 @@ exports.GetRecords = function (req, res) {
             else
                 return [];
         }).then(connectionsRecords => {
+            if (connectionsRecords == null) return;
             connectionsRecords.forEach(record => {
                 records.push({
                     id: record._id,
@@ -88,11 +90,11 @@ exports.GetRecords = function (req, res) {
         }).then(() => {
             res.status(200).send(records);
         }).catch(e => {
-            res.send(500, false);
+            res.send(500, []);
         });   
     }
     else {
-        res.send(false);
+        res.send(200, []);
     }
 }
 
