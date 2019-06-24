@@ -7,7 +7,7 @@ const secret = config.get("salt");
 
 exports.signUser = function (signingID) {
     var token = jwt.sign({ id: signingID }, secret, {
-        expiresIn: '24h'
+        expiresIn: '30d'
     });
     return token;
 }

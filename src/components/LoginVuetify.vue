@@ -77,7 +77,7 @@ export default {
       }).then(res => {
         let data = res.data
         if (data.auth) {
-          this.$cookie.set('portfolioManagerToken', data.token, { expires: 100 })
+          this.$cookie.set('portfolioManagerToken', data.token, { expires: '30D' })
           localStorage.setItem('portfolioManagerUserName', data.userName)
           this.$router.push({ name: 'dashboard' })
           this.$root.$emit('logedIn')
