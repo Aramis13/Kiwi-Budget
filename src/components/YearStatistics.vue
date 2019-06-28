@@ -65,8 +65,8 @@ export default {
         ]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false
+        responsive: false,
+        maintainAspectRatio: true
       }
     }
   },
@@ -103,8 +103,9 @@ export default {
             this.monthData.datasets[0].backgroundColor.push(RandomColor())
             index++
           }
-          this.monthData.datasets[0].data[index] += +record.Cost
-          this.sum += +record.Cost
+          let rounded = Math.round(+record.Cost)
+          this.monthData.datasets[0].data[index] += +rounded
+          this.sum += +rounded
         })
         return records
       }).then(records => {
@@ -125,7 +126,7 @@ export default {
             this.categoryData.datasets[0].backgroundColor.push(RandomColor())
             index++
           }
-          this.categoryData.datasets[0].data[index] += +record.Cost
+          this.categoryData.datasets[0].data[index] += Math.round(+record.Cost)
         })
       }).catch(e => {
         this.$toasted.show('Failed to get records. Please try again.', {

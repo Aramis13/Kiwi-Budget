@@ -4,17 +4,17 @@
       <v-flex xs12>
         <template>
           <v-tabs fixed-tabs grow>
-            <v-tab ripple :key="year">
-              Yaer
-            </v-tab>
             <v-tab ripple :key="month">
               Month
             </v-tab>
-            <v-tab-item :key="year">
-              <year-view />
-            </v-tab-item>
+            <v-tab ripple :key="year">
+              Year
+            </v-tab>
             <v-tab-item :key="month">
               <month-view />
+            </v-tab-item>
+            <v-tab-item :key="year">
+              <year-view />
             </v-tab-item>
           </v-tabs>
         </template>

@@ -47,7 +47,7 @@ export default {
   },
   data () {
     return {
-      date: null,
+      date: new Date().toISOString().substr(0, 7),
       modal: false,
       loaded: false,
       sum: 0,
@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted () {
-    this.loaded = true
+    this.GetMonthRecords()
   },
   methods: {
     ClearLocals () {
@@ -101,8 +101,9 @@ export default {
             this.categoryData.datasets[0].backgroundColor.push(RandomColor())
             index++
           }
-          this.categoryData.datasets[0].data[index] += +record.Cost
-          this.sum += +record.Cost
+          let rounded = Math.round(record.Cost)
+          this.categoryData.datasets[0].data[index] += +rounded
+          this.sum += +rounded
         })
       }).catch(e => {
         this.$toasted.show('Failed to get records. Please try again.', {

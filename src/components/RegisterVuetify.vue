@@ -81,10 +81,10 @@ export default {
       }).then(res => {
         let data = res.data
         if (data.success) {
-          this.$root.$emit('logedIn')
-          this.$cookie.set('portfolioManagerToken', data.token, { expires: '1D' })
+          this.$cookie.set('portfolioManagerToken', data.token, { expires: '30D' })
           localStorage.setItem('portfolioManagerUserName', this.userName)
           this.$router.push({ name: 'dashboard' })
+          this.$root.$emit('logedIn')
         }
       }).catch(e => {
         this.$toasted.show(e, {

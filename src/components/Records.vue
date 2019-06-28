@@ -160,7 +160,7 @@ export default {
     modal: false,
     date: new Date().toISOString().substr(0, 7),
     categories: ['Groceries', 'Rent', 'Restaurants', 'Electricity', 'Car', 'Clothing', 'Health',
-      'Friends', 'Furniture', 'Pets', 'Entertainment', 'Transportation'].sort(),
+      'Friends', 'Furniture', 'Pets', 'Entertainment', 'Transportation', 'Education', 'Vacations'].sort(),
     headers: [
       {
         text: 'Name',
@@ -219,6 +219,9 @@ export default {
     }
   },
   created () {
+    this.$root.$on('logedIn', () => {
+      this.GetRecords()
+    })
     this.GetRecords()
   },
   methods: {
