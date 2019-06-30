@@ -21,6 +21,12 @@ Vue.use(Toasted)
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 
+if (process.env.NODE_ENV === 'production') {
+  navigator.serviceWorker.register('service-worker.js').then(() => {
+    console.log('Service Worker Registered!')
+  })
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

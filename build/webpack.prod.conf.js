@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -30,6 +31,19 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'kiwi-budget',
+      filename: 'service-worker.js'
+      // staticFileGlobs: ['dist/**/*.{js,css}', '/'],
+      // minify: true,
+      // stripPrefix: 'dist/',
+      // dontCacheBustUrlsMatching: /\.\w{6}\./
+    }),
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, '../static'),
+      to: path.resolve(__dirname, '../dist'),
+      toType: 'dir'
+    }]),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
