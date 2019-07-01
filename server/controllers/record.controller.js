@@ -118,7 +118,7 @@ exports.GetRecordsMonth = function (req, res) {
     let month = req.query.month;
     let date = new Date(month);
     let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
     if (data.auth) {
         let email = data.message.id;
         Record.find({email: email, date: {$gte: firstDay, $lt: lastDay}}).then(userRecords => {
