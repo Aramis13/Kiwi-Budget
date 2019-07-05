@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 const mongoose = require('mongoose');
 const user = require('./routes/user.router');
 const record = require('./routes/record.route');
@@ -12,8 +13,9 @@ const path = require('path');
 const socket = require('./sockets/public.socket');
 const server = socket.Initialize(app);
 
+app.use(redirectToHTTPS([/localhost:(\d{4})/]));
+
 let mongoDB = config.get('MONGODB_URI');
-mongoDB = 'mongodb://idan-agam:a3fkBZy1CSFOBIve@gmcluster-shard-00-00-p1jrs.mongodb.net:27017,gmcluster-shard-00-01-p1jrs.mongodb.net:27017,gmcluster-shard-00-02-p1jrs.mongodb.net:27017/main-DB?ssl=true&replicaSet=GmCluster-shard-0&authSource=admin&retryWrites=true'
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
