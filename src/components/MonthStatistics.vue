@@ -28,10 +28,10 @@
       </v-dialog>
     </v-flex>
     <v-flex xs12>
-      <pie-chart v-if="loaded" :chart-data="categoryData" :options="options"/>
+      <pie-chart v-if="loaded && Active" :chart-data="categoryData" :options="options"/>
     </v-flex>
     <v-flex xs12>
-      <h3 v-if="loaded">Monthly Expenses Summary: {{ sum }}</h3>
+      <h3 v-if="loaded && Active">Monthly Expenses Summary: {{ sum }}</h3>
     </v-flex>
 </v-layout>
 </template>
@@ -69,6 +69,11 @@ export default {
   },
   mounted () {
     this.GetMonthRecords()
+  },
+  computed: {
+    Active (old, val) {
+      return !this.active
+    }
   },
   methods: {
     ClearLocals () {

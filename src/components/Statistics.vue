@@ -11,7 +11,7 @@
               Year
             </v-tab>
             <v-tab-item :key="month">
-              <month-view />
+              <month-view :active="!yearActive"/>
             </v-tab-item>
             <v-tab-item :key="year">
               <year-view :active="yearActive"/>

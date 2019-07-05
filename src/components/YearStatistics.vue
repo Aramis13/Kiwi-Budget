@@ -76,7 +76,7 @@ export default {
     this.GetYearRecords()
   },
   computed: {
-    Active () {
+    Active (old, val) {
       return !this.active
     }
   },
