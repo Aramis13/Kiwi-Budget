@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12>
         <template>
-          <v-tabs fixed-tabs grow>
+          <v-tabs fixed-tabs grow @change="Changed">
             <v-tab ripple :key="month">
               Month
             </v-tab>
@@ -14,7 +14,7 @@
               <month-view />
             </v-tab-item>
             <v-tab-item :key="year">
-              <year-view />
+              <year-view :active="yearActive"/>
             </v-tab-item>
           </v-tabs>
         </template>
@@ -30,6 +30,18 @@ export default {
   components: {
     YearView,
     MonthView
+  },
+  data () {
+    return {
+      yearActive: false
+    }
+  },
+  methods: {
+    Changed () {
+      setTimeout(() => {
+        this.yearActive = !this.yearActive
+      }, 100)
+    }
   }
 }
 </script>

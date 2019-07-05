@@ -13,17 +13,14 @@
           v-on:change="ClearLocals(), GetYearRecords()"
         ></v-select>
     </v-flex>
-    <v-flex xs5>
-      <pie-chart v-if="loaded" :chart-data="monthData" :options="options"/>
+    <v-flex xs12 class="mb-3">
+      <pie-chart v-if="loaded && Active" :chart-data="monthData" :options="options"/>
     </v-flex>
-    <v-flex xs2>
-      <v-spacer></v-spacer>
-    </v-flex>
-    <v-flex xs5>
-      <pie-chart v-if="loaded" :chart-data="categoryData" :options="options"/>
+    <v-flex xs12 class="mb-1">
+      <pie-chart v-if="loaded && Active" :chart-data="categoryData" :options="options"/>
     </v-flex>
     <v-flex xs12>
-      <h3 v-if="loaded">Yearly Expenses Summary: {{ sum }}</h3>
+      <h3 v-if="loaded && Active">Yearly Expenses Summary: {{ sum }}</h3>
     </v-flex>
 </v-layout>
 </template>
@@ -33,6 +30,7 @@ import PieChart from './charts/PieChart'
 import RandomColor from 'randomcolor'
 import axios from 'axios'
 export default {
+  props: ['active'],
   components: {
     PieChart
   },
@@ -65,8 +63,8 @@ export default {
         ]
       },
       options: {
-        responsive: false,
-        maintainAspectRatio: true
+        responsive: true,
+        maintainAspectRatio: false
       }
     }
   },
@@ -76,6 +74,11 @@ export default {
       this.years.push(curr)
     }
     this.GetYearRecords()
+  },
+  computed: {
+    Active () {
+      return !this.active
+    }
   },
   methods: {
     ClearLocals () {
