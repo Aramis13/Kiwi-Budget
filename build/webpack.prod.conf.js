@@ -32,18 +32,9 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new SWPrecacheWebpackPlugin({
-      cacheId: 'kiwi-budget',
-      filename: 'service-worker.js'
-      // staticFileGlobs: ['dist/**/*.{js,css}', '/'],
-      // minify: true,
-      // stripPrefix: 'dist/',
-      // dontCacheBustUrlsMatching: /\.\w{6}\./
+      navigateFallback: '/index.html',
+      navigateFallbackWhitelist: [/^(?!\/__).*/]
     }),
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, '../static'),
-      to: path.resolve(__dirname, '../dist'),
-      toType: 'dir'
-    }]),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
