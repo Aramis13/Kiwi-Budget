@@ -13,7 +13,7 @@ import VueSocketio from 'vue-socket.io-extended'
 import io from 'socket.io-client'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
-import store from './store/store'
+import { store } from './store/store'
 
 Vue.use(Loading)
 Vue.use(VueSocketio, io())

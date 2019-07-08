@@ -243,6 +243,7 @@ export default {
       }).then(res => {
         if (res) {
           this.$socket.emit('RecordAdded', record)
+          this.$root.$emit('NewRecord', record)
           this.$toasted.show('Record Added successfully', {
             theme: 'bubble',
             position: 'top-right',

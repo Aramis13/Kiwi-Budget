@@ -69,6 +69,9 @@ export default {
   },
   mounted () {
     this.GetMonthRecords()
+    this.$root.$on('NewRecord', () => {
+      this.GetMonthRecords() // Change to local
+    })
   },
   computed: {
     Active (old, val) {

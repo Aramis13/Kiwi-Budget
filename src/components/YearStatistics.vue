@@ -74,6 +74,9 @@ export default {
       this.years.push(curr)
     }
     this.GetYearRecords()
+    this.$root.$on('NewRecord', () => {
+      this.GetYearRecords() // Change to local
+    })
   },
   computed: {
     Active (old, val) {
