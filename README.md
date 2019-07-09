@@ -26,4 +26,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 All contributions are welcomed, Please check the open issues tab.
 
 ## Technologies
-  ### nodejs
+
+* nodejs
+* express
+* vuejs
+* vuetify
