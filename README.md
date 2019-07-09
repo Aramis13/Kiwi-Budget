@@ -23,4 +23,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ## Contribution
 
-All contribution is welcomed, Please check the open issues tab.
+All contributions are welcomed, Please check the open issues tab.
+
+## Technologies
+  ### nodejs
